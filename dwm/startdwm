@@ -1,0 +1,7 @@
+#!/bin/sh
+
+while true; do
+    ~/sft/dwm/status
+    #xsetroot -name "`skb -1` | `date +'%a %k:%M %d/%b/%Y'`"
+    sleep 1
+done | dwm 2> ~/sft/dwm/.dwm.log

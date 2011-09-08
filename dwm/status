@@ -1,0 +1,16 @@
+#!/bin/bash
+
+getSkb() {
+    if [ "`skb -1`" = "USA" ]; then
+        echo -en "\x05EN"
+    else
+        echo -en "\x03RU"
+    fi
+    #echo -e "normal2 \x01 selected \x03 warning/urgent \x04 error \x01 back to normal text"
+}
+
+getDate() {
+    echo -en "\x01`date +'%a %k:%M %d/%b/%Y'`"
+}
+
+xsetroot -name "$(getDate) $(getSkb)"
