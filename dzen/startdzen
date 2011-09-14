@@ -90,21 +90,21 @@ getNet() {
     RXB=$RXBN; TXB=$TXBN
 }
 
-getWeather() {
-    icon 'load'
-
-    ((TEMP_COUNT++))
-    if [ ${TEMP_COUNT} -gt ${TEMP_MAX} ]; then
-        TEMP_COUNT=0
-        # city code http://informer.gismeteo.ru/getcode/xml.php
-        # moscow
-        TEMP_MSL=`curl -s "http://informer.gismeteo.ru/rss/27612.xml" | egrep "description" | head -n 2 | tail -n 1 | awk -F 'температура ' '{ print $2 }' | awk '{ print $1 }'`
-        # irkutsk id = 30710
-    fi
-
-    text 't°C: '
-    echo -n $TEMP_MSK
-}
+#getWeather() {
+#    icon 'load'
+#
+#    ((TEMP_COUNT++))
+#    if [ ${TEMP_COUNT} -gt ${TEMP_MAX} ]; then
+#        TEMP_COUNT=0
+#        # city code http://informer.gismeteo.ru/getcode/xml.php
+#        # moscow
+#        TEMP_MSL=`curl -s "http://informer.gismeteo.ru/rss/27612.xml" | egrep "description" | head -n 2 | tail -n 1 | awk -F 'температура ' '{ print $2 }' | awk '{ print $1 }'`
+#        # irkutsk id = 30710
+#    fi
+#
+#    text 't°C: '
+#    echo -n $TEMP_MSK
+#}
 
 getVolume() {
     VOLUME=`amixer sget $MIXER  | grep Mono\: | sed -e s/"  Mono: Playback [0-9]* \["// -e s/"\%.*"//`
@@ -131,6 +131,7 @@ getMpd() {
 }
 
 while :; do
+    #. /home/qbbr/sft/dwm/dzen/cpu.sh
     getTemp
     getMem
     getFs
