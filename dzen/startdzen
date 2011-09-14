@@ -1,0 +1,147 @@
+#!/bin/sh
+
+SLEEP=1
+ICON_PATH='xbm'
+ICON_COLOR='#224488'
+BG='#101010'
+FG='#ffffff'
+NORMAL_COLOR='^fg()'
+GRAY_COLOR='^fg(#555555)'
+CLEAR_COLOR='^fg()'
+X=0
+Y=1040
+HEIGHT=20
+WIDTH=1920
+FONT='-*-terminus-medium-r-*-*-16-*-*-*-*-*-*-*'
+
+MIXER="Master"
+
+# min
+#WEATHER_UPDATE_INTERVAL=10
+#let "TEMP_MAX=${WEATHER_UPDATE_INTERVAL}*60*60"
+#TEMP_COUNT=${TEMP_MAX}
+#temp file
+#WEATHER_TEMP=$(/bin/mktemp)
+
+icon() {
+    echo -n " ^fg($ICON_COLOR)^i($ICON_PATH/$1.xbm)^fg() "
+}
+
+text() {
+    echo -n $GRAY_COLOR$1$CLEAR_COLOR
+}
+
+getTemp() {
+    icon 'temp'
+    CPU_TEMP=`sensors | tail -n 5 | sed -ne 's/temp1: \+[-+]\([0-9]\+\).*/\1/p'`
+    MB_TEMP=`sensors | tail -n 5 | sed -ne 's/temp2: \+[-+]\([0-9]\+\).*/\1/p'`
+    text 'CPU: '
+    echo -n "$CPU_TEMP°C"
+    text ', MB: '
+    echo -n "$MB_TEMP°C"
+}
+
+getMem() {
+    icon 'mem'
+    # %
+    MEM_USAGE_PERCENT=`free -om | awk '/Mem:/ {print int(($3 - $7 - $6) / $2  * 100)}'`
+    # Mb
+    MEM_USAGE_MB=`free -om | awk '/Mem:/ {print int($3 - $7 - $6)}'`
+    echo -n "$MEM_USAGE_PERCENT% $(text '(')$MEM_USAGE_MB MB$(text ')')"
+}
+
+getFs() {
+    echo -n '^ca(1,~/sft/dwm/dzen/fs-popup.sh)'
+    icon 'tall'
+    echo -n '^ca()'
+
+    text 'home: '
+    echo -n `df -h | grep sda4 | awk '{ print $5 }'`
+
+    text ', dwnlds: '
+    echo -n `df -h | grep sda6 | awk '{ print $5 }'`
+
+    text ', strg1: '
+    echo -n `df -h | grep sda7 | awk '{ print $5 }'`
+
+    text ', strg2: '
+    echo -n `df -h | grep sda8 | awk '{ print $5 }'`
+}
+
+INTERFACE=eth0
+# Here we remember the previous rx/tx counts
+RXB=`cat /sys/class/net/${INTERFACE}/statistics/rx_bytes`
+TXB=`cat /sys/class/net/${INTERFACE}/statistics/tx_bytes`
+
+getNet() {
+    # get new rx/tx counts
+    RXBN=`cat /sys/class/net/${INTERFACE}/statistics/rx_bytes`
+    TXBN=`cat /sys/class/net/${INTERFACE}/statistics/tx_bytes`
+
+    # calculate the rates
+    # format the values to 4 digit fields
+    RXR=$(printf "%.2f" $(echo "($RXBN - $RXB) / 1024/${SLEEP}" | bc -l))
+    TXR=$(printf "%.2f" $(echo "($TXBN - $TXB) / 1024/${SLEEP}" | bc -l))
+
+    icon 'wired'
+    echo -n "^fg(#67b15f)^i(${ICON_PATH}/net_down.xbm)^fg() ${RXR} kB/s ^fg(#785038)^i(${ICON_PATH}/net_up.xbm)^fg() ${TXR} kB/s"
+
+    # reset old rates
+    RXB=$RXBN; TXB=$TXBN
+}
+
+getWeather() {
+    icon 'load'
+
+    ((TEMP_COUNT++))
+    if [ ${TEMP_COUNT} -gt ${TEMP_MAX} ]; then
+        TEMP_COUNT=0
+        # city code http://informer.gismeteo.ru/getcode/xml.php
+        # moscow
+        TEMP_MSL=`curl -s "http://informer.gismeteo.ru/rss/27612.xml" | egrep "description" | head -n 2 | tail -n 1 | awk -F 'температура ' '{ print $2 }' | awk '{ print $1 }'`
+        # irkutsk id = 30710
+    fi
+
+    text 't°C: '
+    echo -n $TEMP_MSK
+}
+
+getVolume() {
+    VOLUME=`amixer sget $MIXER  | grep Mono\: | sed -e s/"  Mono: Playback [0-9]* \["// -e s/"\%.*"//`
+    VOLUME_ON=`amixer sget $MIXER | sed -ne 's/.*\ \[\([^]]*\).*/\1/p'`
+
+    echo -n '^ca(1,~/scrpts/volumechanger.sh -t)'
+    if [ "$VOLUME_ON" = "on" ]; then
+        icon 'volume'
+    else
+        icon 'volume-mute'
+    fi
+    echo -n '^ca()'
+
+    echo -n "$VOLUME%"
+}
+
+getMpd() {
+    icon 'mpd'
+    if [ "`mpc | head -c 6`" = "volume" ]; then
+        text '[stoped]'
+    else
+        echo -n `mpc | head -n 1`
+    fi
+}
+
+while :; do
+    getTemp
+    getMem
+    getFs
+    getNet
+    #getWeather
+    getVolume
+    getMpd
+
+    echo ''
+
+    sleep $SLEEP
+done | dzen2 -x $X -y $Y -w $WIDTH -h $HEIGHT -bg $BG -fg $FG -ta c -fn $FONT -p
+
+(~/.config/dwm/bottom | dzen2 -x $POSX -y $POSY -tw $WIDTH -h $HEIGHT -bg $BG -fg $FG -fn $FONT -ta l -e "") &
