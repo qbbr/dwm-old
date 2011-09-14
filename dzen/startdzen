@@ -144,5 +144,3 @@ while :; do
 
     sleep $SLEEP
 done | dzen2 -x $X -y $Y -w $WIDTH -h $HEIGHT -bg $BG -fg $FG -ta c -fn $FONT -p
-
-(~/.config/dwm/bottom | dzen2 -x $POSX -y $POSY -tw $WIDTH -h $HEIGHT -bg $BG -fg $FG -fn $FONT -ta l -e "") &
