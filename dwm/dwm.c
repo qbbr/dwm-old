@@ -271,6 +271,7 @@ static void (*handler[LASTEvent]) (XEvent *) = {
 };
 static Atom wmatom[WMLast], netatom[NetLast];
 static Bool running = True;
+static Client *panel = NULL;
 static Cursor cursor[CurLast];
 static Display *dpy;
 static DC dc;
@@ -315,7 +316,8 @@ applyrules(Client *c) {
 		if(ch.res_name)
 			XFree(ch.res_name);
 	}
-	c->tags = c->tags & TAGMASK ? c->tags & TAGMASK : c->mon->tagset[c->mon->seltags];
+	if(!c->tags && panel != c)
+		c->tags = c->tags & TAGMASK ? c->tags & TAGMASK : c->mon->tagset[c->mon->seltags];
 }
 
 Bool
@@ -730,16 +732,18 @@ drawbar(Monitor *m) {
 	Client *c;
 
 	for(c = m->clients; c; c = c->next) {
-		occ |= c->tags;
-		if(c->isurgent)
-			urg |= c->tags;
+		if(panel != c) {
+			occ |= c->tags;
+			if(c->isurgent)
+				urg |= c->tags;
+		}
 	}
 	dc.x = 0;
 	for(i = 0; i < LENGTH(tags); i++) {
 		dc.w = TEXTW(tags[i]);
         col = dc.colors[ (m->tagset[m->seltags] & 1 << i ? 1:(urg & 1 << i ? 2:0))];
         drawtext(tags[i], col, True);
-        drawsquare(m == selmon && selmon->sel && selmon->sel->tags & 1 << i, occ & 1 << i, col);
+        drawsquare(m == selmon && (selmon->sel && selmon->sel != panel) && selmon->sel->tags & 1 << i, occ & 1 << i, col);
 		dc.x += dc.w;
 	}
 	dc.w = blw = TEXTW(m->ltsymbol);
@@ -878,8 +882,9 @@ expose(XEvent *e) {
 
 void
 focus(Client *c) {
+	if (panel == c) return;
 	if(!c || !ISVISIBLE(c))
-		for(c = selmon->stack; c && !ISVISIBLE(c); c = c->snext);
+		for(c = selmon->stack; c && (!ISVISIBLE(c) || panel == c); c = c->snext);
 	/* was if(selmon->sel) */
 	if(selmon->sel && selmon->sel != c)
 		unfocus(selmon->sel, False);
@@ -928,17 +933,17 @@ focusstack(const Arg *arg) {
 	if(!selmon->sel)
 		return;
 	if(arg->i > 0) {
-		for(c = selmon->sel->next; c && !ISVISIBLE(c); c = c->next);
+		for(c = selmon->sel->next; c && (!ISVISIBLE(c) || panel == c); c = c->next);
 		if(!c)
-			for(c = selmon->clients; c && !ISVISIBLE(c); c = c->next);
+			for(c = selmon->clients; c && (!ISVISIBLE(c) || panel == c); c = c->next);
 	}
 	else {
 		for(i = selmon->clients; i != selmon->sel; i = i->next)
-			if(ISVISIBLE(i))
+			if(ISVISIBLE(i) && panel != i)
 				c = i;
 		if(!c)
 			for(; i; i = i->next)
-				if(ISVISIBLE(i))
+				if(ISVISIBLE(i) && panel != i)
 					c = i;
 	}
 	if(c) {
@@ -1015,7 +1020,7 @@ grabbuttons(Client *c, Bool focused) {
 		unsigned int i, j;
 		unsigned int modifiers[] = { 0, LockMask, numlockmask, numlockmask|LockMask };
 		XUngrabButton(dpy, AnyButton, AnyModifier, c->win);
-		if(focused) {
+		if(focused || panel == c) {
 			for(i = 0; i < LENGTH(buttons); i++)
 				if(buttons[i].click == ClkClientWin)
 					for(j = 0; j < LENGTH(modifiers); j++)
@@ -1165,6 +1170,13 @@ manage(Window w, XWindowAttributes *wa) {
 		           && (c->x + (c->w / 2) < c->mon->wx + c->mon->ww)) ? bh : c->mon->my);
 		c->bw = borderpx;
 	}
+
+	updatetitle(c);
+	if(strstr(c->name, "stalonetray") || strstr(c->name, "panel")) {
+		panel = c;
+		c->bw = 0;
+	}
+
 	wc.border_width = c->bw;
 	XConfigureWindow(dpy, w, CWBorderWidth, &wc);
 	XSetWindowBorder(dpy, w, dc.colors[0][ColBorder]);
@@ -1230,6 +1242,7 @@ movemouse(const Arg *arg) {
 
 	if(!(c = selmon->sel))
 		return;
+	if (panel == c) return;
 	restack(selmon);
 	ocx = c->x;
 	ocy = c->y;
@@ -1368,6 +1381,7 @@ resizemouse(const Arg *arg) {
 
 	if(!(c = selmon->sel))
 		return;
+	if (panel == c) return;
 	restack(selmon);
 	ocx = c->x;
 	ocy = c->y;
@@ -1610,7 +1624,7 @@ void
 showhide(Client *c) {
 	if(!c)
 		return;
-	if(ISVISIBLE(c)) { /* show clients top down */
+	if(ISVISIBLE(c) || panel == c) { /* show clients top down */
 		XMoveWindow(dpy, c->win, c->x, c->y);
 		if((!c->mon->lt[c->mon->sellt]->arrange || c->isfloating) && !c->isfullscreen)
 			resize(c, c->x, c->y, c->w, c->h, False);
@@ -1754,6 +1768,8 @@ void
 unmanage(Client *c, Bool destroyed) {
 	Monitor *m = c->mon;
 	XWindowChanges wc;
+
+	if(panel == c) panel = NULL;
 
 	/* The server grab construct avoids race conditions. */
 	detach(c);

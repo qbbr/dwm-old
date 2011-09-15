@@ -28,6 +28,7 @@ static const Rule rules[] = {
 	{ "Chromium",          NULL,       NULL,       1 << 3,       False,       -1 },
 	{ "java-lang-Thread",  NULL,       NULL,       1 << 2,       False,       -1 },
 	{ NULL,                NULL,       "rtorrent", 1 << 8,       False,       -1 },
+	{ "trayer",            NULL,       NULL,       ~0,           True,        -1 },
 };
 
 /* layout(s) */

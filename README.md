@@ -11,6 +11,7 @@ patches:
  * [gridmode](http://dwm.suckless.org/patches/gridmode)
  * [statuscolor](http://dwm.suckless.org/patches/statuscolors)
  * [push](http://dwm.suckless.org/patches/push)
+ * trayer
  * [uselessgap](http://dwm.suckless.org/patches/uselessgap) (optional, not installed)
 
 depending:
