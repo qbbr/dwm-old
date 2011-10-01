@@ -1,7 +1,7 @@
 #!/bin/sh
 
 SLEEP=2
-ICON_PATH='xbm'
+ICON_PATH='/home/qbbr/sft/dwm/dzen/xbm'
 ICON_COLOR='#224488'
 BG='#101010'
 FG='#ffffff'
