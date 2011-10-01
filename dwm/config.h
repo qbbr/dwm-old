@@ -1,16 +1,16 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const char font[]            = "-*-terminus-medium-r-*-*-16-*-*-*-*-*-*-*";
+static const char font[] = "-*-terminus-medium-r-*-*-16-*-*-*-*-*-*-*";
 #define NUMCOLORS 5 // need at least 3
 static const char colors[NUMCOLORS][ColLast][8] = {
-   // border    foreground  background
-   { "#444444", "#777777", "#101010" },  // \x01 = normal
-   { "#224488", "#ffffff", "#224488" },  // \x02 = selected
-   { "#0066ff", "#0066ff", "#ffffff" },  // \x03 = urgent/warning / skb RU
-   { "#ff0000", "#ffffff", "#ff0000" },  // \x04 = error
-   { "#ffffff", "#ffffff", "#224488" },  // \x05 = skb USA
-   // add more here
+	// border    foreground  background
+	{ "#444444", "#777777", "#101010" },  // \x01 = normal
+	{ "#224488", "#ffffff", "#224488" },  // \x02 = selected
+	{ "#0066ff", "#0066ff", "#ffffff" },  // \x03 = urgent/warning / skb RU
+	{ "#ff0000", "#ffffff", "#ff0000" },  // \x04 = error
+	{ "#ffffff", "#ffffff", "#224488" },  // \x05 = skb USA
+	// add more here
 };
 static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
@@ -18,17 +18,23 @@ static const Bool showbar           = True;     /* False means no bar */
 static const Bool topbar            = True;     /* False means bottom bar */
 
 /* tagging */
-static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+static const char *tags[] = { "term", "dev", "web", "mutt", "chat", "news", "music",  "torrent", "9" };
 
 static const Rule rules[] = {
-	/* class               instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",              NULL,       NULL,       1 << 5,       True,        -1 },
-	{ "Iceweasel",         NULL,       NULL,       1 << 1,       False,       -1 },
-	{ "MPlayer",           NULL,       NULL,       0,            True,        -1 },
-	{ "Chromium",          NULL,       NULL,       1 << 3,       False,       -1 },
-	{ "java-lang-Thread",  NULL,       NULL,       1 << 2,       False,       -1 },
-	{ NULL,                NULL,       "rtorrent", 1 << 8,       False,       -1 },
-	{ "trayer",            NULL,       NULL,       ~0,           True,        -1 },
+	/* class               instance    title            tags mask     isfloating   monitor */
+	{ "Gimp",              NULL,       NULL,            1 << 5,       True,        -1 },
+	{ "Iceweasel",         NULL,       NULL,            1 << 2,       False,       -1 },
+	{ "MPlayer",           NULL,       NULL,            0,            True,        -1 },
+	{ "Chromium",          NULL,       NULL,            1 << 2,       False,       -1 },
+	{ "java-lang-Thread",  NULL,       NULL,            1 << 1,       False,       -1 },
+	{ NULL,                NULL,       "mutt",          1 << 3,       False,       -1 },
+	{ NULL,                NULL,       "weechat",       1 << 4,       False,       -1 },
+	{ NULL,                NULL,       "centerim-utf8", 1 << 4,       False,       -1 },
+	{ NULL,                NULL,       "newsbeuter",    1 << 5,       False,       -1 },
+	{ NULL,                NULL,       "ncmpcpp",       1 << 6,       False,       -1 },
+	{ NULL,                NULL,       "rtorrent",      1 << 7,       False,       -1 },
+	{ "trayer",            NULL,       NULL,            ~0,           True,        -1 },
+	{ "feh",               NULL,       NULL,            0,            True,        -1 },
 };
 
 /* layout(s) */
@@ -73,9 +79,10 @@ static Key keys[] = {
 	{ MODKEY,                       XK_Return, zoom,           {0} },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
 	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
-	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
-	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
-	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
+	{ MODKEY,                       XK_h,      setlayout,      {.v = &layouts[0]} },
+	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[1]} },
+	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[2]} },
+	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[3]} },
 	{ MODKEY,                       XK_space,  setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
