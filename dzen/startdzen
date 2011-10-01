@@ -1,6 +1,6 @@
 #!/bin/sh
 
-SLEEP=1
+SLEEP=2
 ICON_PATH='xbm'
 ICON_COLOR='#224488'
 BG='#101010'
@@ -9,12 +9,14 @@ NORMAL_COLOR='^fg()'
 GRAY_COLOR='^fg(#555555)'
 CLEAR_COLOR='^fg()'
 X=0
-Y=1040
+Y=1060
 HEIGHT=20
 WIDTH=1920
 FONT='-*-terminus-medium-r-*-*-16-*-*-*-*-*-*-*'
 
 MIXER="Master"
+
+STAT_BEFORE=`cat /proc/stat | head -n 5`
 
 # min
 #WEATHER_UPDATE_INTERVAL=10
@@ -29,6 +31,57 @@ icon() {
 
 text() {
     echo -n $GRAY_COLOR$1$CLEAR_COLOR
+}
+
+sleep 0.01
+getCoreLoadPercent() {
+    CORE=$1
+
+    BEFORE=`echo "$STAT_BEFORE" | grep "^cpu$CORE "`
+    AFTER=`echo "$STAT_AFTER" | grep "^cpu$CORE "`
+
+    # парсим колонки
+    USER0=`echo "$BEFORE" | awk '{ print $2 }'`
+    USER1=`echo "$AFTER" | awk '{ print $2 }'`
+    NICE0=`echo "$BEFORE" | awk '{ print $3 }'`
+    NICE1=`echo "$AFTER" | awk '{ print $3 }'`
+    SYST0=`echo "$BEFORE" | awk '{ print $4 }'`
+    SYST1=`echo "$AFTER" | awk '{ print $4 }'`
+    IDLE0=`echo "$BEFORE" | awk '{ print $5 }'`
+    IDLE1=`echo "$AFTER" | awk '{ print $5 }'`
+
+    # разность
+    USER=`expr $USER1 - $USER0`
+    NICE=`expr $NICE1 - $NICE0`
+    SYST=`expr $SYST1 - $SYST0`
+    IDLE=`expr $IDLE1 - $IDLE0`
+
+    # сумма разностей
+    TOTAL=`expr $USER + $NICE + $SYST + $IDLE`
+    USED=`expr $USER + $NICE + $SYST`
+
+    # средняя загрузка за интервал времени в процентах
+    echo "$USED * 100 / $TOTAL" | bc
+}
+
+
+getCpuload() {
+    STAT_AFTER=`cat /proc/stat | head -n 5`
+    CORE0=`getCoreLoadPercent 0`
+    CORE1=`getCoreLoadPercent 1`
+    CORE2=`getCoreLoadPercent 2`
+    CORE3=`getCoreLoadPercent 3`
+
+    STAT_BEFORE=$STAT_AFTER
+
+    icon 'cpu'
+    echo -n $CORE0%
+    text ' / '
+    echo -n $CORE1%
+    text ' / '
+    echo -n $CORE2%
+    text ' / '
+    echo -n $CORE3%
 }
 
 getTemp() {
@@ -70,21 +123,21 @@ getFs() {
 
 INTERFACE=eth0
 # Here we remember the previous rx/tx counts
-RXB=`cat /sys/class/net/${INTERFACE}/statistics/rx_bytes`
-TXB=`cat /sys/class/net/${INTERFACE}/statistics/tx_bytes`
+RXB=`cat /sys/class/net/$INTERFACE/statistics/rx_bytes`
+TXB=`cat /sys/class/net/$INTERFACE/statistics/tx_bytes`
 
 getNet() {
     # get new rx/tx counts
-    RXBN=`cat /sys/class/net/${INTERFACE}/statistics/rx_bytes`
-    TXBN=`cat /sys/class/net/${INTERFACE}/statistics/tx_bytes`
+    RXBN=`cat /sys/class/net/$INTERFACE/statistics/rx_bytes`
+    TXBN=`cat /sys/class/net/$INTERFACE/statistics/tx_bytes`
 
     # calculate the rates
     # format the values to 4 digit fields
-    RXR=$(printf "%.2f" $(echo "($RXBN - $RXB) / 1024/${SLEEP}" | bc -l))
-    TXR=$(printf "%.2f" $(echo "($TXBN - $TXB) / 1024/${SLEEP}" | bc -l))
+    RXR=`echo "($RXBN - $RXB) / 1024 / $SLEEP" | bc -l | xargs printf "%.2f"`
+    TXR=`echo "($TXBN - $TXB) / 1024 / $SLEEP" | bc -l | xargs printf "%.2f"`
 
     icon 'wired'
-    echo -n "^fg(#67b15f)^i(${ICON_PATH}/net_down.xbm)^fg() ${RXR} kB/s ^fg(#785038)^i(${ICON_PATH}/net_up.xbm)^fg() ${TXR} kB/s"
+    echo -n "^fg(#67b15f)^i($ICON_PATH/net_down.xbm)^fg() $RXR kB/s ^fg(#785038)^i($ICON_PATH/net_up.xbm)^fg() $TXR kB/s"
 
     # reset old rates
     RXB=$RXBN; TXB=$TXBN
@@ -105,6 +158,18 @@ getNet() {
 #    text 't°C: '
 #    echo -n $TEMP_MSK
 #}
+
+MAILDIR='/home/qbbr/Mail/GMail/INBOX/new/'
+
+getMail() {
+    icon 'mail'
+    COUNT=`ls -1 ${MAILDIR} | wc -l`
+    if [ "$COUNT" = 0 ]; then
+        text $COUNT
+    else
+        echo -n $COUNT
+    fi
+}
 
 getVolume() {
     VOLUME=`amixer sget $MIXER  | grep Mono\: | sed -e s/"  Mono: Playback [0-9]* \["// -e s/"\%.*"//`
@@ -131,12 +196,13 @@ getMpd() {
 }
 
 while :; do
-    #. /home/qbbr/sft/dwm/dzen/cpu.sh
+    getCpuload
     getTemp
     getMem
     getFs
     getNet
     #getWeather
+    getMail
     getVolume
     getMpd
 
