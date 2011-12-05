@@ -30,6 +30,7 @@ static const Rule rules[] = {
 	{ NULL,                NULL,       "mutt",          1 << 3,       False,       -1 },
 	{ NULL,                NULL,       "weechat",       1 << 4,       False,       -1 },
 	{ NULL,                NULL,       "centerim-utf8", 1 << 4,       False,       -1 },
+	{ "Skype",             NULL,       NULL,            1 << 4,       True,        -1 },
 	{ NULL,                NULL,       "newsbeuter",    1 << 5,       False,       -1 },
 	{ NULL,                NULL,       "ncmpcpp",       1 << 6,       False,       -1 },
 	{ NULL,                NULL,       "rtorrent",      1 << 7,       False,       -1 },
