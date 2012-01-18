@@ -1,7 +1,7 @@
 #!/bin/bash
 
 getSkb() {
-    if [ "`skb -1`" = "USA" ]; then
+    if [ "`skb -1`" = "Eng" ]; then
         echo -en "\x05EN"
     else
         echo -en "\x03RU"
