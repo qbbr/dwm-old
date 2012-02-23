@@ -85,8 +85,8 @@ getCpuload() {
 
 getTemp() {
     icon 'temp'
-    CPU_TEMP=`sensors | tail -n 6 | sed -ne 's/temp1: \+[-+]\([0-9]\+\).*/\1/p'`
-    MB_TEMP=`sensors | tail -n 6 | sed -ne 's/temp2: \+[-+]\([0-9]\+\).*/\1/p'`
+    CPU_TEMP=`sensors | tail -n 6 | sed -ne 's/CPU Temperature: \+[-+]\([0-9]\+\).*/\1/p'`
+    MB_TEMP=`sensors | tail -n 6 | sed -ne 's/MB Temperature: \+[-+]\([0-9]\+\).*/\1/p'`
     text 'CPU: '
     echo -n "$CPU_TEMP°C"
     text ', MB: '
