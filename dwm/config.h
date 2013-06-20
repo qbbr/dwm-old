@@ -1,8 +1,9 @@
 /* See LICENSE file for copyright and license details. */
+#include "gaplessgrid.c"
 
 /* appearance */
-static const char font[] = "-*-terminus-medium-r-*-*-16-*-*-*-*-*-*-*";
-#define NUMCOLORS 5 // need at least 3
+static const char font[]            = "-*-terminus-medium-r-*-*-16-*-*-*-*-*-*-*";
+#define NUMCOLORS 5
 static const char colors[NUMCOLORS][ColLast][8] = {
 	// border    foreground  background
 	{ "#444444", "#777777", "#101010" },  // \x01 = normal
@@ -16,13 +17,13 @@ static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const Bool showbar           = True;     /* False means no bar */
 static const Bool topbar            = True;     /* False means bottom bar */
+static const int marginbottom       = 20;       /* Bottom margin for dzen */
 
 /* tagging */
 static const char *tags[] = { "term", "dev", "web", "mutt", "chat", "news", "music",  "torrent", "9" };
 
 static const Rule rules[] = {
-	/* class               instance    title            tags mask     isfloating   monitor */
-	{ "Gimp",              NULL,       NULL,            1 << 5,       True,        -1 },
+	/* class      instance    title       tags mask     isfloating   monitor */
 	{ "Iceweasel",         NULL,       NULL,            1 << 2,       False,       -1 },
 	{ "MPlayer",           NULL,       NULL,            0,            True,        -1 },
 	{ "Chromium",          NULL,       NULL,            1 << 2,       False,       -1 },
@@ -30,22 +31,20 @@ static const Rule rules[] = {
 	{ NULL,                NULL,       "mutt",          1 << 3,       False,       -1 },
 	{ NULL,                NULL,       "weechat",       1 << 4,       False,       -1 },
 	{ NULL,                NULL,       "centerim-utf8", 1 << 4,       False,       -1 },
-	{ "Skype",             NULL,       NULL,            1 << 4,       True,        -1 },
 	{ NULL,                NULL,       "newsbeuter",    1 << 5,       False,       -1 },
 	{ NULL,                NULL,       "ncmpcpp",       1 << 6,       False,       -1 },
 	{ NULL,                NULL,       "rtorrent",      1 << 7,       False,       -1 },
-	{ "trayer",            NULL,       NULL,            ~0,           True,        -1 },
 	{ "feh",               NULL,       NULL,            0,            True,        -1 },
 };
 
 /* layout(s) */
-static const float mfact      = 0.05; /* factor of master area size [0.05..0.95] */
+static const float mfact      = 0.55; /* factor of master area size [0.05..0.95] */
+static const int nmaster      = 1;    /* number of clients in master area */
 static const Bool resizehints = False; /* True means respect size hints in tiled resizals */
 
-#include "grid.c"
 static const Layout layouts[] = {
 	/* symbol     arrange function */
-	{ "HHH",      grid },
+	{ "###",      gaplessgrid },
 	{ "[]=",      tile },    /* first entry is default */
 	{ "><>",      NULL },    /* no layout function means floating behavior */
 	{ "[M]",      monocle },
@@ -63,10 +62,8 @@ static const Layout layouts[] = {
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
 /* commands */
-static const char *dmenucmd[] = { "dmenu_run", "-fn", font, "-nb", colors[0][ColBG], "-nf", colors[0][ColFG],"-sb", colors[1][ColBG], "-sf", colors[1][ColFG], NULL };
-static const char *termcmd[]  = { "urxvtc", NULL };
-
-#include "push.c"
+static const char  *dmenucmd[] = { "dmenu_run", "-b", "-fn", font, "-nb", colors[0][ColBG], "-nf", colors[0][ColFG], "-sb", colors[1][ColBG], "-sf", colors[1][ColFG], NULL };
+static const char *termcmd[]  = { "uxterm", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -75,12 +72,14 @@ static Key keys[] = {
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
+	{ MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
+	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
 	{ MODKEY,                       XK_Return, zoom,           {0} },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
 	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
-	{ MODKEY,                       XK_h,      setlayout,      {.v = &layouts[0]} },
+	{ MODKEY,                       XK_g,      setlayout,      {.v = &layouts[0]} },
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[2]} },
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[3]} },
@@ -92,8 +91,6 @@ static Key keys[] = {
 	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
-	{ MODKEY|ControlMask,           XK_j,      pushdown,       {0} },
-	{ MODKEY|ControlMask,           XK_k,      pushup,         {0} },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)

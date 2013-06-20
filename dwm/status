@@ -1,16 +1,26 @@
 #!/bin/bash
 
 getSkb() {
-    if [ "`skb -1`" = "Eng" ]; then
-        echo -en "\x05EN"
-    else
-        echo -en "\x03RU"
-    fi
-    #echo -e "normal2 \x01 selected \x03 warning/urgent \x04 error \x01 back to normal text"
+	if [ "`skb -1`" = "Eng" ]; then
+		echo -en "\x05 EN "
+	else
+		echo -en "\x03 RU "
+	fi
 }
 
 getDate() {
-    echo -en "\x01`date +'%a %k:%M %d/%b/%Y'`"
+	echo -en "\x01`date +'%a %k:%M %d/%b/%Y'`"
 }
 
-xsetroot -name "$(getDate) $(getSkb)"
+getMpd() {
+	if [ "`mpc | grep '\[playing\]'`" ]; then
+		echo -en "\x05 [MPD]: \x01 "
+		echo -n `mpc | head -n 1`
+		echo -en " \x05 O_o \x01"
+	fi
+}
+
+while true; do
+	xsetroot -name "$(getMpd) $(getDate) $(getSkb)"
+	sleep 1
+done
