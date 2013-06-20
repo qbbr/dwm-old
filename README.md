@@ -4,15 +4,21 @@ dwm + dzen2
 dwm
 ---
 
-verison: 5.9
+verison: 6.0
 
-patches:
+available patches:
 
+ * [gapless grid](http://dwm.suckless.org/patches/gapless_grid)
  * [gridmode](http://dwm.suckless.org/patches/gridmode)
  * [statuscolor](http://dwm.suckless.org/patches/statuscolors)
- * [push](http://dwm.suckless.org/patches/push)
- * trayer
- * [uselessgap](http://dwm.suckless.org/patches/uselessgap) (optional, not installed)
+ * [ansistatuscolors](http://dwm.suckless.org/patches/ansistatuscolors)
+ * marginbottom
+
+enabled patches:
+
+ * gapless grid
+ * statuscolor
+ * marginbottom
 
 depending:
 

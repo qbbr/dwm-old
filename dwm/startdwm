@@ -1,6 +1,0 @@
-#!/bin/sh
-
-while true; do
-    ~/sft/dwm/dwm/status
-    sleep 1
-done | dwm 2> ~/sft/dwm/.dwm.log
