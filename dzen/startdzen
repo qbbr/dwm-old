@@ -1,7 +1,10 @@
 #!/bin/sh
 
-SLEEP=2
-ICON_PATH='/home/qbbr/sft/dwm/dzen/xbm'
+# add to .xinitrc:
+# cd ~/path/to/dzen/ && ./startdzen &
+
+SLEEP=1
+ICON_PATH='xbm'
 ICON_COLOR='#224488'
 BG='#101010'
 FG='#ffffff'
@@ -18,106 +21,121 @@ MIXER="Master"
 
 STAT_BEFORE=`cat /proc/stat | head -n 5`
 
-# min
-#WEATHER_UPDATE_INTERVAL=10
-#let "TEMP_MAX=${WEATHER_UPDATE_INTERVAL}*60*60"
-#TEMP_COUNT=${TEMP_MAX}
-#temp file
-#WEATHER_TEMP=$(/bin/mktemp)
+# sudo aptitude install weather-util
+# create cache via cron
+# */30 * * * * weather UIII -q -m > /home/qbbr/.weather/cache.dump
+WEATHER_CACHE='/home/qbbr/.weather/cache.dump'
 
 icon() {
-    echo -n " ^fg($ICON_COLOR)^i($ICON_PATH/$1.xbm)^fg() "
+	echo -n " ^fg($ICON_COLOR)^i($ICON_PATH/$1.xbm)^fg() "
 }
 
 text() {
-    echo -n $GRAY_COLOR$1$CLEAR_COLOR
+	echo -n $GRAY_COLOR$1$CLEAR_COLOR
 }
 
 sleep 0.01
 getCoreLoadPercent() {
-    CORE=$1
+	CORE=$1
 
-    BEFORE=`echo "$STAT_BEFORE" | grep "^cpu$CORE "`
-    AFTER=`echo "$STAT_AFTER" | grep "^cpu$CORE "`
+	BEFORE=`echo "$STAT_BEFORE" | grep "^cpu$CORE "`
+	AFTER=`echo "$STAT_AFTER" | grep "^cpu$CORE "`
 
-    # парсим колонки
-    USER0=`echo "$BEFORE" | awk '{ print $2 }'`
-    USER1=`echo "$AFTER" | awk '{ print $2 }'`
-    NICE0=`echo "$BEFORE" | awk '{ print $3 }'`
-    NICE1=`echo "$AFTER" | awk '{ print $3 }'`
-    SYST0=`echo "$BEFORE" | awk '{ print $4 }'`
-    SYST1=`echo "$AFTER" | awk '{ print $4 }'`
-    IDLE0=`echo "$BEFORE" | awk '{ print $5 }'`
-    IDLE1=`echo "$AFTER" | awk '{ print $5 }'`
+	# парсим колонки
+	USER0=`echo "$BEFORE" | awk '{ print $2 }'`
+	USER1=`echo "$AFTER" | awk '{ print $2 }'`
+	NICE0=`echo "$BEFORE" | awk '{ print $3 }'`
+	NICE1=`echo "$AFTER" | awk '{ print $3 }'`
+	SYST0=`echo "$BEFORE" | awk '{ print $4 }'`
+	SYST1=`echo "$AFTER" | awk '{ print $4 }'`
+	IDLE0=`echo "$BEFORE" | awk '{ print $5 }'`
+	IDLE1=`echo "$AFTER" | awk '{ print $5 }'`
 
-    # разность
-    USER=`expr $USER1 - $USER0`
-    NICE=`expr $NICE1 - $NICE0`
-    SYST=`expr $SYST1 - $SYST0`
-    IDLE=`expr $IDLE1 - $IDLE0`
+	# разность
+	USER=`expr $USER1 - $USER0`
+	NICE=`expr $NICE1 - $NICE0`
+	SYST=`expr $SYST1 - $SYST0`
+	IDLE=`expr $IDLE1 - $IDLE0`
 
-    # сумма разностей
-    TOTAL=`expr $USER + $NICE + $SYST + $IDLE`
-    USED=`expr $USER + $NICE + $SYST`
+	# сумма разностей
+	TOTAL=`expr $USER + $NICE + $SYST + $IDLE`
+	USED=`expr $USER + $NICE + $SYST`
 
-    # средняя загрузка за интервал времени в процентах
-    echo "$USED * 100 / $TOTAL" | bc
+	# средняя загрузка за интервал времени в процентах
+	echo "$USED * 100 / $TOTAL" | bc
 }
 
 getCpuload() {
-    STAT_AFTER=`cat /proc/stat | head -n 5`
-    CORE0=`getCoreLoadPercent 0`
-    CORE1=`getCoreLoadPercent 1`
-    CORE2=`getCoreLoadPercent 2`
-    CORE3=`getCoreLoadPercent 3`
+	STAT_AFTER=`cat /proc/stat | head -n 5`
+	CORE0=`getCoreLoadPercent 0`
+	CORE1=`getCoreLoadPercent 1`
+	CORE2=`getCoreLoadPercent 2`
+	CORE3=`getCoreLoadPercent 3`
 
-    STAT_BEFORE=$STAT_AFTER
+	STAT_BEFORE=$STAT_AFTER
 
-    icon 'cpu'
-    echo -n $CORE0%
-    text ' / '
-    echo -n $CORE1%
-    text ' / '
-    echo -n $CORE2%
-    text ' / '
-    echo -n $CORE3%
+	icon 'cpu'
+	echo -n $CORE0%
+	text ' / '
+	echo -n $CORE1%
+	text ' / '
+	echo -n $CORE2%
+	text ' / '
+	echo -n $CORE3%
 }
 
 getTemp() {
-    icon 'temp'
-    CPU_TEMP=`sensors | tail -n 6 | sed -ne 's/CPU Temperature: \+[-+]\([0-9]\+\).*/\1/p'`
-    MB_TEMP=`sensors | tail -n 6 | sed -ne 's/MB Temperature: \+[-+]\([0-9]\+\).*/\1/p'`
-    text 'CPU: '
-    echo -n "$CPU_TEMP°C"
-    text ', MB: '
-    echo -n "$MB_TEMP°C"
+	icon 'temp'
+	CPU_TEMP=`sensors | tail -n 6 | sed -ne 's/CPU Temperature: \+[-+]\([0-9]\+\).*/\1/p'`
+	MB_TEMP=`sensors | tail -n 6 | sed -ne 's/MB Temperature: \+[-+]\([0-9]\+\).*/\1/p'`
+	text 'CPU: '
+	echo -n "$CPU_TEMP°C"
+	text ', MB: '
+	echo -n "$MB_TEMP°C"
 }
 
 getMem() {
-    icon 'mem'
-    # %
-    MEM_USAGE_PERCENT=`free -om | awk '/Mem:/ {print int(($3 - $7 - $6) / $2  * 100)}'`
-    # Mb
-    MEM_USAGE_MB=`free -om | awk '/Mem:/ {print int($3 - $7 - $6)}'`
-    echo -n "$MEM_USAGE_PERCENT% $(text '(')$MEM_USAGE_MB MB$(text ')')"
+	icon 'mem'
+	# %
+	MEM_USAGE_PERCENT=`free -om | awk '/Mem:/ {print int(($3 - $7 - $6) / $2  * 100)}'`
+	# Mb
+	MEM_USAGE_MB=`free -om | awk '/Mem:/ {print int($2 - ($3 - $7 - $6))}'`
+	echo -n "$MEM_USAGE_PERCENT%"
+	text ' ('
+	echo -n "$MEM_USAGE_MB"M
+	text ')'
 }
 
 getFs() {
-    echo -n '^ca(1,~/sft/dwm/dzen/fs-popup.sh)'
-    icon 'tall'
-    echo -n '^ca()'
+	FS_DF=`df -h`
 
-    text 'home: '
-    echo -n `df -h | grep sda4 | awk '{ print $5 }'`
+	#echo -n '^ca(1,~/sft/dwm/dzen/fs-popup.sh)'
+	icon 'tall'
+	#echo -n '^ca()'
 
-    text ', dwnlds: '
-    echo -n `df -h | grep sda6 | awk '{ print $5 }'`
+	#text 'home: '
+	#echo -n `df -h | grep sda4 | awk '{ print $5 }'`
 
-    text ', strg1: '
-    echo -n `df -h | grep sda7 | awk '{ print $5 }'`
+	text 'dwnlds: '
+	FS_DFC=`echo "$FS_DF" | grep sda6`
+	echo -n `echo "$FS_DFC" | awk '{ print $5 }'`
+	text ' ('
+	echo -n `echo "$FS_DFC" | awk '{ print $4 }'`
+	text ')'
 
-    text ', strg2: '
-    echo -n `df -h | grep sda8 | awk '{ print $5 }'`
+	text ', strg1: '
+	FS_DFC=`echo "$FS_DF" | grep sda7`
+	echo -n `echo "$FS_DFC" | awk '{ print $5 }'`
+	text ' ('
+	echo -n `echo "$FS_DFC" | awk '{ print $4 }'`
+	text ')'
+
+	text ', strg2: '
+	FS_DFC=`echo "$FS_DF" | grep sda8`
+	echo -n `echo "$FS_DFC" | awk '{ print $5 }'`
+	text ' ('
+	echo -n `echo "$FS_DFC" | awk '{ print $4 }'`
+	text ')'
 }
 
 INTERFACE=eth0
@@ -126,86 +144,82 @@ RXB=`cat /sys/class/net/$INTERFACE/statistics/rx_bytes`
 TXB=`cat /sys/class/net/$INTERFACE/statistics/tx_bytes`
 
 getNet() {
-    # get new rx/tx counts
-    RXBN=`cat /sys/class/net/$INTERFACE/statistics/rx_bytes`
-    TXBN=`cat /sys/class/net/$INTERFACE/statistics/tx_bytes`
+	# get new rx/tx counts
+	RXBN=`cat /sys/class/net/$INTERFACE/statistics/rx_bytes`
+	TXBN=`cat /sys/class/net/$INTERFACE/statistics/tx_bytes`
 
-    # calculate the rates
-    # format the values to 4 digit fields
-    RXR=`echo "($RXBN - $RXB) / 1024 / $SLEEP" | bc -l | xargs printf "%.2f"`
-    TXR=`echo "($TXBN - $TXB) / 1024 / $SLEEP" | bc -l | xargs printf "%.2f"`
+	# calculate the rates
+	# format the values to 4 digit fields
+	RXR=`echo "($RXBN - $RXB) / 1024 / $SLEEP" | bc -l | xargs printf "%.2f"`
+	TXR=`echo "($TXBN - $TXB) / 1024 / $SLEEP" | bc -l | xargs printf "%.2f"`
 
-    icon 'wired'
-    echo -n "^fg(#67b15f)^i($ICON_PATH/net_down.xbm)^fg() $RXR kB/s ^fg(#785038)^i($ICON_PATH/net_up.xbm)^fg() $TXR kB/s"
+	icon 'wired'
+	echo -n "^fg(#67b15f)^i($ICON_PATH/net_down.xbm)^fg() $RXR kB/s ^fg(#785038)^i($ICON_PATH/net_up.xbm)^fg() $TXR kB/s"
 
-    # reset old rates
-    RXB=$RXBN; TXB=$TXBN
+	# reset old rates
+	RXB=$RXBN; TXB=$TXBN
 }
 
-#getWeather() {
-#    icon 'load'
-#
-#    ((TEMP_COUNT++))
-#    if [ ${TEMP_COUNT} -gt ${TEMP_MAX} ]; then
-#        TEMP_COUNT=0
-#        # city code http://informer.gismeteo.ru/getcode/xml.php
-#        # moscow
-#        TEMP_MSL=`curl -s "http://informer.gismeteo.ru/rss/27612.xml" | egrep "description" | head -n 2 | tail -n 1 | awk -F 'температура ' '{ print $2 }' | awk '{ print $1 }'`
-#        # irkutsk id = 30710
-#    fi
-#
-#    text 't°C: '
-#    echo -n $TEMP_MSK
-#}
+getWeather() {
+	icon 'load'
+
+	text 't: '
+	W_TEMP=`cat $WEATHER_CACHE | awk '/Temperature/ {print $2}'`
+	echo -n $W_TEMP°C
+
+	text ', h: '
+	W_HUMIDITY=`cat $WEATHER_CACHE | awk '/Humidity/ {print $3}'`
+	echo -n $W_HUMIDITY
+}
 
 MAILDIR='/home/qbbr/Mail/GMail/INBOX/new/'
 
 getMail() {
-    icon 'mail'
-    COUNT=`ls -1 ${MAILDIR} | wc -l`
-    if [ "$COUNT" = 0 ]; then
-        text $COUNT
-    else
-        echo -n $COUNT
-    fi
+	icon 'mail'
+	COUNT=`ls -1 ${MAILDIR} | wc -l`
+	if [ "$COUNT" = 0 ]; then
+		text $COUNT
+	else
+		echo -n $COUNT
+	fi
 }
 
 getVolume() {
-    VOLUME=`amixer sget $MIXER  | grep Mono\: | sed -e s/"  Mono: Playback [0-9]* \["// -e s/"\%.*"//`
-    VOLUME_ON=`amixer sget $MIXER | sed -ne 's/.*\ \[\([^]]*\).*/\1/p'`
+	VOLUME=`amixer sget $MIXER	| grep Mono\: | sed -e s/"	Mono: Playback [0-9]* \["// -e s/"\%.*"//`
+	VOLUME_ON=`amixer sget $MIXER | sed -ne 's/.*\ \[\([^]]*\).*/\1/p'`
 
-    echo -n '^ca(1,~/scrpts/volumechanger.sh -t)'
-    if [ "$VOLUME_ON" = "on" ]; then
-        icon 'volume'
-    else
-        icon 'volume-mute'
-    fi
-    echo -n '^ca()'
+	#echo -n '^ca(1,~/scrpts/volumechanger.sh -t)'
+	if [ "$VOLUME_ON" = "on" ]; then
+		icon 'volume'
+	else
+		icon 'volume-mute'
+	fi
+	#echo -n '^ca()'
 
-    echo -n "$VOLUME%"
+	echo -n "$VOLUME%"
 }
 
 getMpd() {
-    icon 'mpd'
-    if [ "`mpc | head -c 6`" = "volume" ]; then
-        text '[stoped]'
-    else
-        echo -n `mpc | head -n 1`
-    fi
+	#icon 'mpd'
+	if [ "`mpc | head -c 6`" = "volume" ]; then
+		text '[stoped]'
+	else
+		echo -n `mpc | head -n 1`
+	fi
 }
 
 while :; do
-    getCpuload
-    getTemp
-    getMem
-    getFs
-    getNet
-    #getWeather
-    getMail
-    getVolume
-    getMpd
+	getCpuload
+	getTemp
+	getMem
+	getFs
+	getNet
+	getWeather
+	getMail
+	getVolume
+	#getMpd
 
-    echo ''
+	echo ''
 
-    sleep $SLEEP
+	sleep $SLEEP
 done | dzen2 -x $X -y $Y -w $WIDTH -h $HEIGHT -bg $BG -fg $FG -ta c -fn $FONT -p
