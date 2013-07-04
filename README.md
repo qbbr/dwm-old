@@ -36,14 +36,15 @@ dzen2
 
  * multi core CPU usage
  * CPU, MB temperature
- * mem percent/mb usage
- * fs percent usage
+ * mem percent / free
+ * fs percent usage / free
  * network (eth0) down/up speed in kB/s
  * new mail count
- * weather with cache (unstable, commented)
- * volume (icon click = toggle)
+ * weather (weather-util)
+ * volume
  * mpd
 
 depending:
 
  * [lm-sensors](http://www.lm-sensors.org/)
+ * [weather-util](http://fungi.yuggoth.org/weather/)
