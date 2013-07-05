@@ -62,8 +62,11 @@ static const Layout layouts[] = {
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
 /* commands */
-static const char  *dmenucmd[] = { "dmenu_run", "-b", "-fn", font, "-nb", colors[0][ColBG], "-nf", colors[0][ColFG], "-sb", colors[1][ColBG], "-sf", colors[1][ColFG], NULL };
-static const char *termcmd[]  = { "uxterm", NULL };
+static const char *dmenucmd[]      = { "dmenu_run", "-b", "-fn", font, "-nb", colors[0][ColBG], "-nf", colors[0][ColFG], "-sb", colors[1][ColBG], "-sf", colors[1][ColFG], NULL };
+static const char *termcmd[]       = { "uxterm", NULL };
+static const char *volupcmd[]      = { "volumechanger", "-i", "5", NULL };
+static const char *voldowncmd[]    = { "volumechanger", "-d", "5", NULL };
+static const char *voltogglecmd[]  = { "volumechanger", "-t", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -91,6 +94,9 @@ static Key keys[] = {
 	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
+	{ ControlMask,                  0xffaa,    spawn,          {.v = volupcmd } },
+	{ ControlMask,                  0xffaf,    spawn,          {.v = voldowncmd } },
+	{ ControlMask,                  0xffad,    spawn,          {.v = voltogglecmd } },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
@@ -119,4 +125,3 @@ static Button buttons[] = {
 	{ ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
 	{ ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
 };
-
