@@ -62,11 +62,18 @@ static const Layout layouts[] = {
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
 /* commands */
-static const char *dmenucmd[]      = { "dmenu_run", "-b", "-fn", font, "-nb", colors[0][ColBG], "-nf", colors[0][ColFG], "-sb", colors[1][ColBG], "-sf", colors[1][ColFG], NULL };
-static const char *termcmd[]       = { "uxterm", NULL };
-static const char *volupcmd[]      = { "volumechanger", "-i", "5", NULL };
-static const char *voldowncmd[]    = { "volumechanger", "-d", "5", NULL };
-static const char *voltogglecmd[]  = { "volumechanger", "-t", NULL };
+static const char *dmenucmd[]       = { "dmenu_run", "-b", "-fn", font, "-nb", colors[0][ColBG], "-nf", colors[0][ColFG], "-sb", colors[1][ColBG], "-sf", colors[1][ColFG], NULL };
+static const char *termcmd[]        = { "uxterm", NULL };
+static const char *slockcmd[]       = { "slock", NULL };
+static const char *volupcmd[]       = { "volumechanger", "-i", "5", NULL };
+static const char *voldowncmd[]     = { "volumechanger", "-d", "5", NULL };
+static const char *voltogglecmd[]   = { "volumechanger", "-t", NULL };
+static const char *mixertogglecmd[] = { "amixer", "set", "Headphone", "toggle", "&&", "amixer", "set", "Front", "toggle", NULL };
+static const char *mpdnextcmd[]     = { "mpc", "next", NULL };
+static const char *mpdprevcmd[]     = { "mpc", "prev", NULL };
+static const char *mpdtogglecmd[]   = { "mpc", "toggle", NULL };
+static const char *mpdseekpcmd[]    = { "mpc", "seek", "+5", NULL };
+static const char *mpdseekmcmd[]    = { "mpc", "seek", "-5", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -94,9 +101,16 @@ static Key keys[] = {
 	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
+	{ ControlMask,                  0xff13,    spawn,          {.v = slockcmd } },
 	{ ControlMask,                  0xffaa,    spawn,          {.v = volupcmd } },
 	{ ControlMask,                  0xffaf,    spawn,          {.v = voldowncmd } },
 	{ ControlMask,                  0xffad,    spawn,          {.v = voltogglecmd } },
+	{ ControlMask,                  0xffab,    spawn,          {.v = mixertogglecmd } },
+	{ ControlMask,                  0xff98,    spawn,          {.v = mpdnextcmd } },
+	{ ControlMask,                  0xff96,    spawn,          {.v = mpdprevcmd } },
+	{ ControlMask,                  0xff9d,    spawn,          {.v = mpdtogglecmd } },
+	{ ControlMask,                  0xff95,    spawn,          {.v = mpdseekmcmd } },
+	{ ControlMask,                  0xff9a,    spawn,          {.v = mpdseekpcmd } },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
