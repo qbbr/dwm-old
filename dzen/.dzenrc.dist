@@ -1,0 +1,32 @@
+#!/bin/bash
+# .dzenrc config for startdzen
+
+# what show in dzen panel ?
+SHOW_CPU=true
+SHOW_TEMP=true
+SHOW_TEMP_MB=true
+SHOW_MEM=true
+SHOW_FS=true
+SHOW_NET=true
+SHOW_WEATHER=true
+SHOW_MAIL=true
+SHOW_VOLUME=true
+SHOW_MPD=false
+
+FS=('rootfs' '/home')
+INTERFACE='eth0'
+MIXER='Master'
+
+SLEEP=1
+ICON_PATH='xbm'
+ICON_COLOR='#224488'
+BG='#101010'
+FG='#ffffff'
+NORMAL_COLOR='^fg()'
+GRAY_COLOR='^fg(#555555)'
+CLEAR_COLOR='^fg()'
+X=0
+Y=1004
+HEIGHT=20
+WIDTH=1280
+FONT='-*-terminus-medium-r-*-*-16-*-*-*-*-*-*-*'
