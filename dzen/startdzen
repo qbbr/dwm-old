@@ -86,15 +86,20 @@ getCpuload() {
 getTemp() {
 	icon 'temp'
 
-	CPU_TEMP=`sensors | sed -ne 's/Core 0: \+[-+]\([0-9]\+\).*/\1/p'`
-	text 'CPU: '
-	echo -n "$CPU_TEMP°C"
+	_CACHE=`sensors`
 
-	if $SHOW_TEMP_MB; then
-		MB_TEMP=`sensors | sed -ne 's/MB Temperature: \+[-+]\([0-9]\+\).*/\1/p'`
-		text ', MB: '
-		echo -n "$MB_TEMP°C"
-	fi
+	COUNT=${#TEMP[@]}
+	i=0
+	let "COUNT = $COUNT - 1"
+	for key in ${!TEMP[@]}; do
+		text $key
+		_TEMP=`echo "$_CACHE" | sed "${TEMP[$key]}!D" | sed -ne 's/[^:]*: \+[-+]\([0-9]\+\).*/\1/p'`
+		echo -n " $_TEMP°C"
+		if [ "$i" != "$COUNT" ]; then
+			text ', '
+		fi
+		let "i = $i +1"
+	done
 }
 
 getMem() {
@@ -132,7 +137,7 @@ getFs() {
 	done
 }
 
-# Here we remember the previous rx/tx counts
+# here we remember the previous rx/tx counts
 RXB=`cat /sys/class/net/$INTERFACE/statistics/rx_bytes`
 TXB=`cat /sys/class/net/$INTERFACE/statistics/tx_bytes`
 
@@ -166,8 +171,6 @@ getWeather() {
 		echo -n $W_HUMIDITY
 	fi
 }
-
-MAILDIR='/home/qbbr/Mail/GMail/INBOX/new/'
 
 getMail() {
 	if [ -d "$MAILDIR" ]; then

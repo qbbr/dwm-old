@@ -4,7 +4,6 @@
 # what show in dzen panel ?
 SHOW_CPU=true
 SHOW_TEMP=true
-SHOW_TEMP_MB=true
 SHOW_MEM=true
 SHOW_FS=true
 SHOW_NET=true
@@ -13,9 +12,12 @@ SHOW_MAIL=true
 SHOW_VOLUME=true
 SHOW_MPD=false
 
-FS=('rootfs' '/home')
+declare -A TEMP
+TEMP=(['CPU:']=10 ['MB:']=11)
+FS=('rootfs' '/media/dwnlds' '/media/strg1' '/media/strg2')
 INTERFACE='eth0'
 MIXER='Master'
+MAILDIR='/home/qbbr/Mail/GMail/INBOX/new/'
 
 SLEEP=1
 ICON_PATH='xbm'
@@ -26,7 +28,7 @@ NORMAL_COLOR='^fg()'
 GRAY_COLOR='^fg(#555555)'
 CLEAR_COLOR='^fg()'
 X=0
-Y=1004
+Y=1060
 HEIGHT=20
-WIDTH=1280
+WIDTH=1920
 FONT='-*-terminus-medium-r-*-*-16-*-*-*-*-*-*-*'
