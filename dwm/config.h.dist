@@ -2,7 +2,7 @@
 #include "gaplessgrid.c"
 
 /* appearance */
-static const char font[]            = "-*-terminus-medium-r-*-*-16-*-*-*-*-*-*-*";
+static const char font[] = "-*-terminus-medium-r-*-*-16-*-*-*-*-*-*-*";
 #define NUMCOLORS 5
 static const char colors[NUMCOLORS][ColLast][8] = {
 	// border    foreground  background
