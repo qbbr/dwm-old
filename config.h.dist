@@ -66,6 +66,7 @@ static const char *dmenucmd[]       = { "dmenu_run", "-b", "-fn", font, "-nb", c
 static const char *dclipcmd[]       = { "dclip", "paste", "-fn", font, "-nb", colors[0][ColBG], "-nf", colors[0][ColFG], "-sb", colors[1][ColBG], "-sf", colors[1][ColFG], NULL };
 static const char *termcmd[]        = { "uxterm", NULL };
 static const char *slockcmd[]       = { "slock", NULL };
+static const char *screenshotcmd[]  = { "scrot", NULL };
 static const char *volupcmd[]       = { "volumechanger", "-i", "5", NULL };
 static const char *voldowncmd[]     = { "volumechanger", "-d", "5", NULL };
 static const char *voltogglecmd[]   = { "volumechanger", "-t", NULL };
@@ -105,6 +106,7 @@ static Key keys[] = {
 	{ MODKEY|ControlMask,           XK_c,      spawn,          SHCMD("exec dclip copy") },
 	{ MODKEY|ControlMask,           XK_v,      spawn,          {.v = dclipcmd } },
 	{ ControlMask,                  0xff13,    spawn,          {.v = slockcmd } },
+	{ ControlMask,                  0xff61,    spawn,          {.v = screenshotcmd } },
 	{ ControlMask,                  0xffaa,    spawn,          {.v = volupcmd } },
 	{ ControlMask,                  0xffaf,    spawn,          {.v = voldowncmd } },
 	{ ControlMask,                  0xffad,    spawn,          {.v = voltogglecmd } },
