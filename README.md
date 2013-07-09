@@ -37,6 +37,22 @@ enabled patches:
  * statuscolor
  * marginbottom
 
+hotkeys:
+
+ * [Ctrl] + [Mod] + [c] = copy to clipboad (dclip)
+ * [Ctrl] + [Mod] + [v] = paste to clipboad, using dmenu (dclip)
+ * [Ctrl] + [Pause]     = lock screen (slock)
+ * [Ctrl] + [PrtScr]    = take screenshot (scrot)
+ * [Ctrl] + [Num /]     = volume down (volumechanger)
+ * [Ctrl] + [Num *]     = volume up (volumechanger)
+ * [Ctrl] + [Num -]     = volume mute/unmute (volumechanger)
+ * [Ctrl] + [Num +]     = switch Headphone <-> Front output
+ * [Ctrl] + [Num 5]     = mpd pause/play (mpc)
+ * [Ctrl] + [Num 4]     = mpd previous track (mpc)
+ * [Ctrl] + [Num 6]     = mpd next track (mpc)
+ * [Ctrl] + [Num 7]     = mpd seek backward (mpc)
+ * [Ctrl] + [Num 9]     = mpd seek forward (mpc)
+
 statuscolor with skb:
 
  * ![dwm statuscolor skb en](https://lh5.googleusercontent.com/-4EfhPoZZKGM/TnEtZlFRbbI/AAAAAAAAAdU/NqZk9BEi_7c/s800/dwm-statuscolor-skb-en.png "skb en")
