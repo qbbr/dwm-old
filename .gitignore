@@ -1,4 +1,2 @@
-dwm/config.h
-dzen/.dzenrc
-*.swp
+config.h
 *.log
