@@ -1,10 +1,27 @@
-dwm + dzen2
-===========
+dwm 6.0
+=======
 
-dwm
----
+requirements
+------------
 
-verison: 6.0
+ * [dmenu](http://tools.suckless.org/dmenu/)(using in dclip)
+ * [slock](http://tools.suckless.org/slock)(optional, config.h keys)
+ * [skb](https://github.com/polachok/skb)(using in status script)
+
+installation
+------------
+
+```bash
+cd ~/sft/
+git clone git@github.com:qbbr/dwm.git
+cd dwm/
+cp config.h.dist config.h
+sudo make install clean
+sudo ln -s ~/sft/dwm/dclip /usr/bin/
+```
+
+overview
+--------
 
 available patches:
 
@@ -20,31 +37,7 @@ enabled patches:
  * statuscolor
  * marginbottom
 
-depending:
-
- * [skb](https://github.com/polachok/skb)
-
 statuscolor with skb:
 
  * ![dwm statuscolor skb en](https://lh5.googleusercontent.com/-4EfhPoZZKGM/TnEtZlFRbbI/AAAAAAAAAdU/NqZk9BEi_7c/s800/dwm-statuscolor-skb-en.png "skb en")
  * ![dwm statuscolor skb ru](https://lh4.googleusercontent.com/-CuqeTPkzz6Y/TnEtZgi4CbI/AAAAAAAAAdY/v1isBwqx3YU/s800/dwm-statuscolor-skb-ru.png "skb ru")
-
-dzen2
------
-
-[![dzen2](https://lh3.googleusercontent.com/-Vu-kTSNaxS8/TnEzqCJ92TI/AAAAAAAAAd4/3Dh5K2GdjAo/s900/dzen2-bottom-short.png)](https://lh6.googleusercontent.com/-iy-0aq7uagk/TnEwB5whzbI/AAAAAAAAAds/DbEyIYe3G5Q/s1400/dzen2-bottom.png)
-
- * multi core CPU usage
- * CPU, MB temperature
- * mem percent / free
- * fs percent usage / free
- * network (eth0) down/up speed in kB/s
- * new mail count
- * weather (weather-util)
- * volume
- * mpd
-
-depending:
-
- * [lm-sensors](http://www.lm-sensors.org/)
- * [weather-util](http://fungi.yuggoth.org/weather/)
