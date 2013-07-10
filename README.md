@@ -17,7 +17,13 @@ git clone git@github.com:qbbr/dwm.git
 cd dwm/
 cp config.h.dist config.h
 sudo make install clean
-sudo ln -s ~/sft/dwm/dclip /usr/bin/
+sudo ln -s ~/sft/dwm/sft/dclip /usr/bin/
+```
+
+add to .xinitrc
+
+```bash
+~/sft/dwm/bin/startdwm
 ```
 
 overview
