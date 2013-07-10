@@ -65,5 +65,5 @@ hotkeys:
 
 statuscolor with skb:
 
- * ![dwm statuscolor skb en](https://lh5.googleusercontent.com/-4EfhPoZZKGM/TnEtZlFRbbI/AAAAAAAAAdU/NqZk9BEi_7c/s800/dwm-statuscolor-skb-en.png "skb en")
- * ![dwm statuscolor skb ru](https://lh4.googleusercontent.com/-CuqeTPkzz6Y/TnEtZgi4CbI/AAAAAAAAAdY/v1isBwqx3YU/s800/dwm-statuscolor-skb-ru.png "skb ru")
+ * ![dwm statuscolor skb en](https://lh5.googleusercontent.com/-lx-o5t1wLts/Udz_wejFaZI/AAAAAAAABHo/v7yQ6cP8pbU/w350-h18-no/dwm-status-en.png "dwm status skb en")
+ * ![dwm statuscolor skb ru](https://lh3.googleusercontent.com/-XXU_byQ7YmY/Udz_wc2BbCI/AAAAAAAABHk/2hXM56vy9iE/w350-h18-no/dwm-status-ru.png "dwm status skb ru")
