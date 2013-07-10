@@ -1,4 +1,6 @@
 #!/bin/bash
 
-./status &
-dwm 2> ../dwm.log
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+$DIR/status &
+dwm 2> $DIR/../dwm.log
