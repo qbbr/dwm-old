@@ -16,6 +16,7 @@ cd ~/sft/
 git clone git@github.com:qbbr/dwm.git
 cd dwm/
 patch -p1 < dwm-6.0-statuscolors.diff
+patch -p1 < dwm-6.0-systray.diff
 patch -p1 < dwm-6.0-gaplessgrid.diff
 patch -p1 < dwm-6.0-marginbottom.diff
 cp config.h.dist config.h
