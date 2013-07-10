@@ -1,6 +1,8 @@
 dwm 6.0
 =======
 
+see also [dzenbar](https://github.com/qbbr/dzenbar)
+
 requirements
 ------------
 
