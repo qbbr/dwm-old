@@ -29,7 +29,7 @@ sudo ln -s ~/sft/dwm/sft/dclip /usr/bin/
 add to .xinitrc
 
 ```bash
-~/sft/dwm/bin/startdwm
+cd ~/sft/dwm/bin/ ./startdwm
 ```
 
 overview
