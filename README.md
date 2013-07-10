@@ -23,7 +23,7 @@ patch -p1 < dwm-6.0-gaplessgrid.diff
 patch -p1 < dwm-6.0-marginbottom.diff
 cp config.h.dist config.h
 sudo make install clean
-sudo ln -s ~/sft/dwm/sft/dclip /usr/bin/
+sudo ln -s ~/sft/dwm/bin/dclip /usr/bin/
 ```
 
 add to .xinitrc
