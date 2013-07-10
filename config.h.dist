@@ -13,11 +13,13 @@ static const char colors[NUMCOLORS][ColLast][8] = {
 	{ "#ffffff", "#ffffff", "#224488" },  // \x05 = skb USA
 	// add more here
 };
-static const unsigned int borderpx  = 1;        /* border pixel of windows */
-static const unsigned int snap      = 32;       /* snap pixel */
-static const Bool showbar           = True;     /* False means no bar */
-static const Bool topbar            = True;     /* False means bottom bar */
-static const int marginbottom       = 20;       /* Bottom margin for dzen */
+static const unsigned int borderpx       = 1;        /* border pixel of windows */
+static const unsigned int snap           = 32;       /* snap pixel */
+static const unsigned int systrayspacing = 2;        /* systray spacing */
+static const Bool showsystray            = True;     /* False means no systray */
+static const Bool showbar                = True;     /* False means no bar */
+static const Bool topbar                 = True;     /* False means bottom bar */
+static const int marginbottom            = 20;       /* Bottom margin for dzen */
 
 /* tagging */
 static const char *tags[] = { "term", "dev", "web", "mutt", "chat", "news", "music",  "torrent", "9" };
