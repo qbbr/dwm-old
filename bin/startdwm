@@ -1,0 +1,4 @@
+#!/bin/bash
+
+./status &
+dwm 2> ../dwm.log
