@@ -38,22 +38,21 @@ overview
 
 available patches:
 
- * [gapless grid](http://dwm.suckless.org/patches/gapless_grid)
- * [gridmode](http://dwm.suckless.org/patches/gridmode)
  * [statuscolor](http://dwm.suckless.org/patches/statuscolors)
+ * [systray](http://dwm.suckless.org/patches/systray)
+ * [gapless grid](http://dwm.suckless.org/patches/gapless_grid)
+ * marginbottom
+ * [selfrestart](http://dwm.suckless.org/patches/selfrestart)
+
+old (not using) patches:
+
+ * [gridmode](http://dwm.suckless.org/patches/gridmode)
  * [ansistatuscolors](http://dwm.suckless.org/patches/ansistatuscolors)
- * marginbottom
-
-enabled patches:
-
- * gapless grid
- * statuscolor
- * marginbottom
 
 hotkeys:
 
- * [Ctrl] + [Mod] + [c] = copy to clipboad (dclip)
- * [Ctrl] + [Mod] + [v] = paste to clipboad, using dmenu (dclip)
+ * [Mod] + [Ctrl] + [c] = copy to clipboad (dclip)
+ * [Mod] + [Ctrl] + [v] = paste to clipboad, using dmenu (dclip)
  * [Ctrl] + [Pause]     = lock screen (slock)
  * [Ctrl] + [PrtScr]    = take screenshot (scrot)
  * [Ctrl] + [Num /]     = volume down (volumechanger)
@@ -65,6 +64,8 @@ hotkeys:
  * [Ctrl] + [Num 6]     = mpd next track (mpc)
  * [Ctrl] + [Num 7]     = mpd seek backward (mpc)
  * [Ctrl] + [Num 9]     = mpd seek forward (mpc)
+ * [Mod] + [Shift] + [F10]          = restart dwm
+ * [Mod] + [Ctrl] + [Shift] + [F10] = exit dwm
 
 statuscolor with skb:
 
