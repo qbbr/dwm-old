@@ -21,6 +21,7 @@ patch -p1 < dwm-6.0-statuscolors.diff
 patch -p1 < dwm-6.0-systray.diff
 patch -p1 < dwm-6.0-gaplessgrid.diff
 patch -p1 < dwm-6.0-marginbottom.diff
+patch -p1 < dwm-6.0-selfrestart.diff
 cp config.h.dist config.h
 sudo make install clean
 sudo ln -s ~/sft/dwm/bin/dclip /usr/bin/

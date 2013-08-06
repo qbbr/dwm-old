@@ -22,13 +22,13 @@ static const Bool topbar                 = True;     /* False means bottom bar *
 static const int marginbottom            = 20;       /* Bottom margin for dzen */
 
 /* tagging */
-static const char *tags[] = { "term", "dev", "web", "mutt", "chat", "news", "music",  "torrent", "9" };
+static const char *tags[] = { "1:term", "2:dev", "3:web", "q:mutt", "w:chat", "e:news", "a:music",  "s:torrent", "d:" };
 
 static const Rule rules[] = {
-	/* class      instance    title       tags mask     isfloating   monitor */
+	/* class               instance    title            tags mask     isfloating   monitor */
 	{ "Iceweasel",         NULL,       NULL,            1 << 2,       False,       -1 },
-	{ "MPlayer",           NULL,       NULL,            0,            True,        -1 },
 	{ "Chromium",          NULL,       NULL,            1 << 2,       False,       -1 },
+	{ "MPlayer",           NULL,       NULL,            0,            True,        -1 },
 	{ "java-lang-Thread",  NULL,       NULL,            1 << 1,       False,       -1 },
 	{ NULL,                NULL,       "mutt",          1 << 3,       False,       -1 },
 	{ NULL,                NULL,       "weechat",       1 << 4,       False,       -1 },
@@ -37,6 +37,8 @@ static const Rule rules[] = {
 	{ NULL,                NULL,       "ncmpcpp",       1 << 6,       False,       -1 },
 	{ NULL,                NULL,       "rtorrent",      1 << 7,       False,       -1 },
 	{ "feh",               NULL,       NULL,            0,            True,        -1 },
+	{ "Gimp",              NULL,       NULL,            0,            True,        -1 },
+	{ "Pidgin",            NULL,       NULL,            1 << 4,       False,       -1 },
 };
 
 /* layout(s) */
@@ -78,6 +80,8 @@ static const char *mpdprevcmd[]     = { "mpc", "prev", NULL };
 static const char *mpdtogglecmd[]   = { "mpc", "toggle", NULL };
 static const char *mpdseekpcmd[]    = { "mpc", "seek", "+5", NULL };
 static const char *mpdseekmcmd[]    = { "mpc", "seek", "-5", NULL };
+
+#include "selfrestart.c"
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -121,13 +125,14 @@ static Key keys[] = {
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
-	TAGKEYS(                        XK_4,                      3)
-	TAGKEYS(                        XK_5,                      4)
-	TAGKEYS(                        XK_6,                      5)
-	TAGKEYS(                        XK_7,                      6)
-	TAGKEYS(                        XK_8,                      7)
-	TAGKEYS(                        XK_9,                      8)
-	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
+	TAGKEYS(                        XK_q,                      3)
+	TAGKEYS(                        XK_w,                      4)
+	TAGKEYS(                        XK_e,                      5)
+	TAGKEYS(                        XK_a,                      6)
+	TAGKEYS(                        XK_s,                      7)
+	TAGKEYS(                        XK_d,                      8)
+	{ MODKEY|ShiftMask,             XK_F10,    self_restart,   {0} },
+	{ MODKEY|ShiftMask|ControlMask, XK_F10,    quit,           {0} },
 };
 
 /* button definitions */
