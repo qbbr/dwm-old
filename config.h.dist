@@ -39,6 +39,7 @@ static const Rule rules[] = {
 	{ "feh",               NULL,       NULL,            0,            True,        -1 },
 	{ "Gimp",              NULL,       NULL,            0,            True,        -1 },
 	{ "Pidgin",            NULL,       NULL,            1 << 4,       False,       -1 },
+	{ "qemu",              NULL,       NULL,            0,            True,        -1 },
 };
 
 /* layout(s) */
