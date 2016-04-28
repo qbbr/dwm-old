@@ -2,9 +2,9 @@
 
 getSkb() {
 	if [ "`skb -1`" = "Eng" ]; then
-		echo -en "\x05 EN "
+		echo -en "\x05EN"
 	else
-		echo -en "\x03 RU "
+		echo -en "\x03RU"
 	fi
 }
 
@@ -21,6 +21,6 @@ getMpd() {
 }
 
 while true; do
-	xsetroot -name "$(getMpd) $(getDate) $(getSkb)"
+	xsetroot -name "$(getDate) $(getSkb)"
 	sleep 1
 done

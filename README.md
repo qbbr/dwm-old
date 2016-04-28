@@ -1,4 +1,4 @@
-dwm 6.0
+dwm 6.1
 =======
 
 see also [dzenbar](https://github.com/qbbr/dzenbar)
@@ -15,16 +15,14 @@ installation
 
 ```bash
 cd ~/sft/
-git clone git@github.com:qbbr/dwm.git
+git clone https://github.com/qbbr/dwm.git
 cd dwm/
-patch -p1 < dwm-6.0-statuscolors.diff
-patch -p1 < dwm-6.0-systray.diff
-patch -p1 < dwm-6.0-gaplessgrid.diff
-patch -p1 < dwm-6.0-marginbottom.diff
-patch -p1 < dwm-6.0-selfrestart.diff
+patch -p1 < dwm-6.1-statuscolors.diff
+patch -p1 < dwm-6.1-systray.diff
+patch -p1 < dwm-6.1-gaplessgrid.diff
+patch -p1 < dwm-6.1-bottommargin.diff
 cp config.h.dist config.h
 sudo make install clean
-sudo ln -s ~/sft/dwm/bin/dclip /usr/bin/
 ```
 
 add to .xinitrc
@@ -41,13 +39,7 @@ available patches:
  * [statuscolor](http://dwm.suckless.org/patches/statuscolors)
  * [systray](http://dwm.suckless.org/patches/systray)
  * [gapless grid](http://dwm.suckless.org/patches/gapless_grid)
- * marginbottom
- * [selfrestart](http://dwm.suckless.org/patches/selfrestart)
-
-old (not using) patches:
-
- * [gridmode](http://dwm.suckless.org/patches/gridmode)
- * [ansistatuscolors](http://dwm.suckless.org/patches/ansistatuscolors)
+ * [bottommargin](http://dwm.suckless.org/patches/bottommargin)
 
 hotkeys:
 
@@ -64,8 +56,6 @@ hotkeys:
  * [Ctrl] + [Num 6]     = mpd next track (mpc)
  * [Ctrl] + [Num 7]     = mpd seek backward (mpc)
  * [Ctrl] + [Num 9]     = mpd seek forward (mpc)
- * [Mod] + [Shift] + [F10]          = restart dwm
- * [Mod] + [Ctrl] + [Shift] + [F10] = exit dwm
 
 statuscolor with skb:
 

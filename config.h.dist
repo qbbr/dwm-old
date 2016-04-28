@@ -2,31 +2,39 @@
 #include "gaplessgrid.c"
 
 /* appearance */
-static const char font[] = "-*-terminus-medium-r-*-*-16-*-*-*-*-*-*-*";
-#define NUMCOLORS 5
-static const char colors[NUMCOLORS][ColLast][8] = {
-	// border    foreground  background
-	{ "#444444", "#777777", "#101010" },  // \x01 = normal
-	{ "#224488", "#ffffff", "#224488" },  // \x02 = selected
-	{ "#0066ff", "#0066ff", "#ffffff" },  // \x03 = urgent/warning / skb RU
-	{ "#ff0000", "#ffffff", "#ff0000" },  // \x04 = error
-	{ "#ffffff", "#ffffff", "#224488" },  // \x05 = skb USA
-	// add more here
+static const char *fonts[] = {
+	"Terminus:size=12"
 };
-static const unsigned int borderpx       = 1;        /* border pixel of windows */
-static const unsigned int snap           = 32;       /* snap pixel */
-static const unsigned int systrayspacing = 2;        /* systray spacing */
-static const Bool showsystray            = True;     /* False means no systray */
-static const Bool showbar                = True;     /* False means no bar */
-static const Bool topbar                 = True;     /* False means bottom bar */
-static const int marginbottom            = 20;       /* Bottom margin for dzen */
+static const char dmenufont[]       = "Terminus:size=12";
+#define NUMCOLORS 5
+static const char colors[NUMCOLORS][MAXCOLORS][8] = {
+	// border    foreground  background
+	{ "#444444", "#777777", "#101010" }, // \x01 = normal
+	{ "#224488", "#ffffff", "#224488" }, // \x02 = selected
+	{ "#0066ff", "#0066ff", "#ffffff" }, // \x03 = urgent/warning / skb RU
+	{ "#ff0000", "#ffffff", "#ff0000" }, // \x04 = error
+	{ "#ffffff", "#ffffff", "#224488" }, // \x05 = skb USA
+};
+static const unsigned int borderpx       = 2;  /* border pixel of windows */
+static const unsigned int snap           = 32; /* snap pixel */
+static const unsigned int systraypinning = 0;  /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
+static const unsigned int systrayspacing = 2;  /* systray spacing */
+static const int systraypinningfailfirst = 1;  /* 1: if pinning fails, display systray on the first monitor, 0: display systray on the last monitor*/
+static const int showsystray             = 1;  /* 0 means no systray */
+static const int showbar                 = 1;  /* 0 means no bar */
+static const int topbar                  = 1;  /* 0 means bottom bar */
+static const unsigned int marginbottom   = 20; /* Margin at the bottom for another bar */
 
 /* tagging */
-static const char *tags[] = { "1:term", "2:dev", "3:web", "q:mutt", "w:chat", "e:news", "a:music",  "s:torrent", "d:" };
+static const char *tags[] = { "1:term", "2:dev", "3:web", "q:mail", "w:chat", "e:news", "a:music",  "s:", "d:" };
 
 static const Rule rules[] = {
-	/* class               instance    title            tags mask     isfloating   monitor */
-	{ "Iceweasel",         NULL,       NULL,            1 << 2,       False,       -1 },
+	/* xprop(1):
+	 *	WM_CLASS(STRING) = instance, class
+	 *	WM_NAME(STRING) = title
+	 */
+	/* class      instance    title       tags mask     isfloating   monitor */
+	{ "Iceweasel",         NULL,       NULL,            1 << 2,       False,       2  },
 	{ "Chromium",          NULL,       NULL,            1 << 2,       False,       -1 },
 	{ "MPlayer",           NULL,       NULL,            0,            True,        -1 },
 	{ "feh",               NULL,       NULL,            0,            True,        -1 },
@@ -34,24 +42,26 @@ static const Rule rules[] = {
 	{ "Pidgin",            NULL,       NULL,            1 << 4,       False,       -1 },
 	{ "qemu",              NULL,       NULL,            0,            True,        -1 },
 	{ "mupdf",             NULL,       NULL,            0,            True,        -1 },
-	{ NULL,                NULL,       "mutt",          1 << 3,       False,       -1 },
+	{ "Fpm2",              NULL,       NULL,            1 << 8,       False,       2  },
+	{ "Icedove",           NULL,       NULL,            1 << 3,       False,       -1 },
+	{ NULL,                NULL,       "mutt",          1 << 3,       False,       2  },
 	{ NULL,                NULL,       "weechat",       1 << 4,       False,       -1 },
-	{ NULL,                NULL,       "centerim-utf8", 1 << 4,       False,       -1 },
+	{ NULL,                NULL,       "mcabber",       1 << 4,       False,       2  },
 	{ NULL,                NULL,       "newsbeuter",    1 << 5,       False,       -1 },
-	{ NULL,                NULL,       "ncmpcpp",       1 << 6,       False,       -1 },
+	{ NULL,                NULL,       "ncmpcpp",       1 << 5,       False,       2  },
 	{ NULL,                NULL,       "rtorrent",      1 << 7,       False,       -1 },
 };
 
 /* layout(s) */
-static const float mfact      = 0.55; /* factor of master area size [0.05..0.95] */
-static const int nmaster      = 1;    /* number of clients in master area */
-static const Bool resizehints = False; /* True means respect size hints in tiled resizals */
+static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
+static const int nmaster     = 1;    /* number of clients in master area */
+static const int resizehints = 0;    /* 1 means respect size hints in tiled resizals */
 
 static const Layout layouts[] = {
 	/* symbol     arrange function */
-	{ "###",      gaplessgrid },
-	{ "[]=",      tile },    /* first entry is default */
-	{ "><>",      NULL },    /* no layout function means floating behavior */
+	{ "###",      gaplessgrid }, /* first entry is default */
+	{ "[]=",      tile },
+	{ "><>",      NULL },        /* no layout function means floating behavior */
 	{ "[M]",      monocle },
 };
 
@@ -67,8 +77,8 @@ static const Layout layouts[] = {
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
 /* commands */
-static const char *dmenucmd[]       = { "dmenu_run", "-p", "Run command:", "-b", "-fn", font, "-nb", colors[0][ColBG], "-nf", colors[0][ColFG], "-sb", colors[1][ColBG], "-sf", colors[1][ColFG], NULL };
-static const char *dclipcmd[]       = { "dclip", "paste", "-p", "Paste:", "-fn", font, "-nb", colors[0][ColBG], "-nf", colors[0][ColFG], "-sb", colors[1][ColBG], "-sf", colors[1][ColFG], NULL };
+static char dmenumon[2]             = "0"; /* component of dmenucmd, manipulated in spawn() */
+static const char *dmenucmd[]       = { "dmenu_run", "-m", dmenumon, "-b", "-fn", dmenufont, "-nb", colors[1][SchemeNorm], "-nf", colors[1][SchemeSel], "-sb", colors[1][SchemeSel], "-sf", colors[1][SchemeNorm], NULL };
 static const char *termcmd[]        = { "uxterm", NULL };
 static const char *slockcmd[]       = { "slock", NULL };
 static const char *screenshotcmd[]  = { "scrot", NULL };
@@ -81,8 +91,6 @@ static const char *mpdprevcmd[]     = { "mpc", "prev", NULL };
 static const char *mpdtogglecmd[]   = { "mpc", "toggle", NULL };
 static const char *mpdseekpcmd[]    = { "mpc", "seek", "+5", NULL };
 static const char *mpdseekmcmd[]    = { "mpc", "seek", "-5", NULL };
-
-#include "selfrestart.c"
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -110,8 +118,6 @@ static Key keys[] = {
 	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
-	{ MODKEY|ControlMask,           XK_c,      spawn,          SHCMD("exec dclip copy") },
-	{ MODKEY|ControlMask,           XK_v,      spawn,          {.v = dclipcmd } },
 	{ ControlMask,                  0xff13,    spawn,          {.v = slockcmd } },
 	{ ControlMask,                  0xff61,    spawn,          {.v = screenshotcmd } },
 	{ ControlMask,                  0xffaa,    spawn,          {.v = volupcmd } },
@@ -132,8 +138,7 @@ static Key keys[] = {
 	TAGKEYS(                        XK_a,                      6)
 	TAGKEYS(                        XK_s,                      7)
 	TAGKEYS(                        XK_d,                      8)
-	{ MODKEY|ShiftMask,             XK_F10,    self_restart,   {0} },
-	{ MODKEY|ShiftMask|ControlMask, XK_F10,    quit,           {0} },
+	{ MODKEY|ShiftMask|ControlMask, XK_q,      quit,           {0} },
 };
 
 /* button definitions */
