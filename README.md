@@ -1,16 +1,16 @@
-dwm 6.1
-=======
+DWM 6.1 + patches
+=================
 
 see also [dzenbar](https://github.com/qbbr/dzenbar)
 
-requirements
+Requirements
 ------------
 
  * [dmenu](http://tools.suckless.org/dmenu/)(using in dclip)
  * [slock](http://tools.suckless.org/slock)(optional, config.h keys)
  * [skb](https://github.com/polachok/skb)(using in status script)
 
-installation
+Installation
 ------------
 
 ```bash
@@ -31,7 +31,7 @@ add to .xinitrc
 ~/sft/dwm/bin/startdwm
 ```
 
-overview
+Overview
 --------
 
 available patches:
