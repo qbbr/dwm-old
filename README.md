@@ -1,4 +1,4 @@
-DWM 6.1 + patches
+dwm 6.1 + patches
 =================
 
 see also [dzenbar](https://github.com/qbbr/dzenbar)
