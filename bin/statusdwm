@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-getSkb() {
+getKeyboardLayout() {
 	if [ "`skb -1`" = "Eng" ]; then
 		echo -en "\x05EN"
 	else
@@ -21,6 +21,6 @@ getDate() {
 #}
 
 while true; do
-	xsetroot -name "$(getDate) $(getSkb)"
+	xsetroot -name "$(getDate) $(getKeyboardLayout)"
 	sleep 1
 done
