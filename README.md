@@ -1,7 +1,5 @@
 # patched dwm 6.1
 
-see also:
-
  * [dwm](https://dwm.suckless.org/)
  * original [README](README) file
  * [dzenbar](https://github.com/qbbr/dzenbar) (dzen2 bar with multiplexer for dwm)
