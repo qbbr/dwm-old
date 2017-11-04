@@ -14,7 +14,6 @@ Installation
 ------------
 
 ```bash
-cd ~/sft/
 git clone https://github.com/qbbr/dwm.git
 cd dwm/
 patch -p1 < dwm-6.1-statuscolors.diff
@@ -28,7 +27,7 @@ sudo make install clean
 add to .xinitrc
 
 ```bash
-~/sft/dwm/bin/startdwm
+/path/to/dwm/bin/startdwm
 ```
 
 Overview
