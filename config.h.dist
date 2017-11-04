@@ -5,15 +5,15 @@
 static const char *fonts[] = {
 	"Terminus:size=12"
 };
-static const char dmenufont[]       = "Terminus:size=12";
+static const char dmenufont[] = "Terminus:size=12";
 #define NUMCOLORS 5
 static const char colors[NUMCOLORS][MAXCOLORS][8] = {
 	// border    foreground  background
-	{ "#444444", "#777777", "#101010" }, // \x01 = normal
-	{ "#224488", "#ffffff", "#224488" }, // \x02 = selected
-	{ "#0066ff", "#0066ff", "#ffffff" }, // \x03 = urgent/warning / skb RU
-	{ "#ff0000", "#ffffff", "#ff0000" }, // \x04 = error
-	{ "#ffffff", "#ffffff", "#224488" }, // \x05 = skb USA
+	{ "#073642", "#657B83", "#002B36" }, // \x01 = normal
+	{ "#B58900", "#EEE8D5", "#002B36" }, // \x02 = selected
+	{ "#EEE8D5", "#EEE8D5", "#B58900" }, // \x03 = urgent/warning / skb RU
+	{ "#D33682", "#EEE8D5", "#D33682" }, // \x04 = error
+	{ "#93A1A1", "#93A1A1", "#002B36" }, // \x05 = skb USA
 };
 static const unsigned int borderpx       = 2;  /* border pixel of windows */
 static const unsigned int snap           = 32; /* snap pixel */
@@ -80,7 +80,8 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2]             = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[]       = { "dmenu_run", "-m", dmenumon, "-b", "-fn", dmenufont, "-nb", colors[1][SchemeNorm], "-nf", colors[1][SchemeSel], "-sb", colors[1][SchemeSel], "-sf", colors[1][SchemeNorm], NULL };
+static const char *dmenucmd[]       = { "dmenu_run", "-m", dmenumon, "-b", "-fn", dmenufont, "-nb", colors[0][2], "-nf", colors[0][1], "-sb", colors[1][2], "-sf", colors[1][1], NULL };
+static const char *dmenumpccmd[]    = { "dmenu-mpc-playlist", NULL };
 static const char *termcmd[]        = { "uxterm", NULL };
 static const char *slockcmd[]       = { "slock", NULL };
 static const char *screenshotcmd[]  = { "scrot", NULL };
@@ -131,6 +132,7 @@ static Key keys[] = {
 	{ ControlMask,                  0xff9d,    spawn,          {.v = mpdtogglecmd } },
 	{ ControlMask,                  0xff95,    spawn,          {.v = mpdseekmcmd } },
 	{ ControlMask,                  0xff9a,    spawn,          {.v = mpdseekpcmd } },
+	{ ControlMask,                  0xff9e,    spawn,          {.v = dmenumpccmd } },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
