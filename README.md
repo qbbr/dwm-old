@@ -7,7 +7,7 @@
 ## Requirements
 
  * [dmenu](http://tools.suckless.org/dmenu/)(optional, see `dclip`)
- * [slock](http://tools.suckless.org/slock)(optional, see `keys[]` in [config](config.h.dist#L97)
+ * [slock](http://tools.suckless.org/slock)(optional, see `keys[]` in [config](config.h.dist#L98)
  * [skb](https://github.com/polachok/skb)(see [statusdwm](bin/statusdwm))
 
 ## Installation
