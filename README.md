@@ -40,20 +40,20 @@ available patches:
 
 hotkeys:
 
- * [Mod] + [Ctrl] + [c] = copy to clipboad (dclip)
- * [Mod] + [Ctrl] + [v] = paste to clipboad, using dmenu (dclip)
- * [Ctrl] + [Pause]     = lock screen (slock)
- * [Ctrl] + [PrtScr]    = take screenshot (scrot)
- * [Ctrl] + [Num /]     = volume down (volumechanger)
- * [Ctrl] + [Num *]     = volume up (volumechanger)
- * [Ctrl] + [Num -]     = volume mute/unmute (volumechanger)
- * [Ctrl] + [Num +]     = switch Headphone <-> Front output
- * [Ctrl] + [Num 5]     = mpd pause/play (mpc)
- * [Ctrl] + [Num 4]     = mpd previous track (mpc)
- * [Ctrl] + [Num 6]     = mpd next track (mpc)
- * [Ctrl] + [Num 7]     = mpd seek backward (mpc)
- * [Ctrl] + [Num 9]     = mpd seek forward (mpc)
- * [Ctrl] + [Num 0]     = show mpc playlist (dmenu-mpc-playlist)
+ * `[Mod] + [Ctrl] + [c]` - copy to clipboad (dclip)
+ * `[Mod] + [Ctrl] + [v]` - paste to clipboad, using dmenu (dclip)
+ * `[Ctrl] + [Pause]`     - lock screen (slock)
+ * `[Ctrl] + [PrtScr]`    - take screenshot (scrot)
+ * `[Ctrl] + [Num /]`     - volume down (volumechanger)
+ * `[Ctrl] + [Num *]`     - volume up (volumechanger)
+ * `[Ctrl] + [Num -]`     - volume mute/unmute (volumechanger)
+ * `[Ctrl] + [Num +]`     - switch Headphone <-> Front output
+ * `[Ctrl] + [Num 5]`     - mpd pause/play (mpc)
+ * `[Ctrl] + [Num 4]`     - mpd previous track (mpc)
+ * `[Ctrl] + [Num 6]`     - mpd next track (mpc)
+ * `[Ctrl] + [Num 7]`     - mpd seek backward (mpc)
+ * `[Ctrl] + [Num 9]`     - mpd seek forward (mpc)
+ * `[Ctrl] + [Num 0]`     - show mpc playlist (dmenu-mpc-playlist)
 
 statuscolor with [skb](https://github.com/polachok/skb):
 
