@@ -33,25 +33,28 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Iceweasel",         NULL,       NULL,            1 << 2,       False,       2  },
-	{ "Firefox",           NULL,       NULL,            1 << 2,       False,       2  },
-	{ "Chromium",          NULL,       NULL,            1 << 2,       False,       -1 },
-	{ "MPlayer",           NULL,       NULL,            0,            True,        -1 },
-	{ "mpv",               NULL,       NULL,            0,            True,        -1 },
-	{ "feh",               NULL,       NULL,            0,            True,        -1 },
-	{ "Gimp",              NULL,       NULL,            0,            True,        -1 },
-	{ "Pidgin",            NULL,       NULL,            1 << 4,       False,       -1 },
-	{ "qemu",              NULL,       NULL,            0,            True,        -1 },
-	{ "mupdf",             NULL,       NULL,            0,            True,        -1 },
-	{ "Fpm2",              NULL,       NULL,            1 << 8,       False,       2  },
-	{ "Icedove",           NULL,       NULL,            1 << 3,       False,       -1 },
-	{ NULL,                NULL,       "mutt",          1 << 3,       False,       2  },
-	{ NULL,                NULL,       "weechat",       1 << 4,       False,       -1 },
-	{ NULL,                NULL,       "mcabber",       1 << 4,       False,       2  },
-	{ NULL,                NULL,       "newsbeuter",    1 << 5,       False,       -1 },
-	{ NULL,                NULL,       "ncmpcpp",       1 << 5,       False,       2  },
-	{ NULL,                NULL,       "rtorrent",      1 << 7,       False,       -1 },
+	/* class                instance    title            tags mask     isfloating   monitor */
+	{ "jetbrains-phpstorm", NULL,       NULL,            1 << 1,       False,       2  },
+	{ "jetbrains-pycharm",  NULL,       NULL,            1 << 1,       False,       2  },
+	{ "Iceweasel",          NULL,       NULL,            1 << 2,       False,       2  },
+	{ "Firefox",            NULL,       NULL,            1 << 2,       False,       2  },
+	{ "Chromium",           NULL,       NULL,            1 << 2,       False,       -1 },
+	{ "MPlayer",            NULL,       NULL,            0,            True,        -1 },
+	{ "mpv",                NULL,       NULL,            0,            True,        -1 },
+	{ "feh",                NULL,       NULL,            0,            True,        -1 },
+	{ "Gimp",               NULL,       NULL,            0,            True,        -1 },
+	{ "Pidgin",             NULL,       NULL,            1 << 4,       False,       -1 },
+	{ "qemu",               NULL,       NULL,            0,            True,        -1 },
+	{ "mupdf",              NULL,       NULL,            0,            True,        -1 },
+	{ "Fpm2",               NULL,       NULL,            1 << 8,       False,       2  },
+	{ "Icedove",            NULL,       NULL,            1 << 3,       False,       -1 },
+	{ "Thunderbird",        NULL,       NULL,            1 << 3,       False,       -1 },
+	{ NULL,                 NULL,       "mutt",          1 << 3,       False,       2  },
+	{ NULL,                 NULL,       "weechat",       1 << 4,       False,       -1 },
+	{ NULL,                 NULL,       "mcabber",       1 << 4,       False,       2  },
+	{ NULL,                 NULL,       "newsbeuter",    1 << 5,       False,       -1 },
+	{ NULL,                 NULL,       "ncmpcpp",       1 << 5,       False,       2  },
+	{ NULL,                 NULL,       "rtorrent",      1 << 7,       False,       -1 },
 };
 
 /* layout(s) */
