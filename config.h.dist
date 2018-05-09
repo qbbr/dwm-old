@@ -42,6 +42,8 @@ static const Rule rules[] = {
 	{ "MPlayer",            NULL,       NULL,            0,            True,        -1 },
 	{ "mpv",                NULL,       NULL,            0,            True,        -1 },
 	{ "feh",                NULL,       NULL,            0,            True,        -1 },
+	{ "Osmo",               NULL,       NULL,            0,            True,        -1 },
+	{ "Lxappearance",       NULL,       NULL,            0,            True,        -1 },
 	{ "Gimp",               NULL,       NULL,            0,            True,        -1 },
 	{ "Pidgin",             NULL,       NULL,            1 << 4,       False,       -1 },
 	{ "qemu",               NULL,       NULL,            0,            True,        -1 },
@@ -91,7 +93,7 @@ static const char *screenshotcmd[]  = { "scrot", NULL };
 static const char *volupcmd[]       = { "volumechanger", "-i", "5", NULL };
 static const char *voldowncmd[]     = { "volumechanger", "-d", "5", NULL };
 static const char *voltogglecmd[]   = { "volumechanger", "-t", NULL };
-static const char *mixertogglecmd[] = { "amixer", "set", "Headphone", "toggle", "&&", "amixer", "set", "Front", "toggle", NULL };
+static const char *mixertogglecmd[] = { "amixer", "-c", "0", "set", "Headphone", "toggle", "&&", "amixer", "-c", "0", "set", "Front", "toggle", NULL };
 static const char *mpdnextcmd[]     = { "mpc", "next", NULL };
 static const char *mpdprevcmd[]     = { "mpc", "prev", NULL };
 static const char *mpdtogglecmd[]   = { "mpc", "toggle", NULL };
