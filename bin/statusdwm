@@ -2,7 +2,7 @@
 
 getKeyboardLayout() {
 	if [ "`skb -1`" = "Eng" ]; then
-		echo -en "\x05EN"
+		echo -en "\x02EN"
 	else
 		echo -en "\x03RU"
 	fi
