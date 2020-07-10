@@ -2,7 +2,7 @@
 
  * [dwm](https://dwm.suckless.org/)
  * original [README](README) file
- * [dzenbar](https://github.com/qbbr/dzenbar) (dzen2 bar with multiplexer for dwm)
+ * [dzenbar](https://github.com/qbbr/dzenbar)
 
 ## Requirements
 
@@ -31,6 +31,10 @@ add to `.xinitrc`
 
 ## Overview
 
+statuscolor with [skb](https://github.com/polachok/skb):
+
+![dwm statusbar skb colored](https://i.imgur.com/7syG1Ni.png)
+
 available patches:
 
  * [statuscolor](http://dwm.suckless.org/patches/statuscolors)
@@ -54,8 +58,3 @@ hotkeys:
  * `[Ctrl] + [Num 7]`     - mpd seek backward (mpc)
  * `[Ctrl] + [Num 9]`     - mpd seek forward (mpc)
  * `[Ctrl] + [Num 0]`     - show mpc playlist (dmenu-mpc-playlist)
-
-statuscolor with [skb](https://github.com/polachok/skb):
-
- * ![dwm statuscolor skb en](https://lh5.googleusercontent.com/-lx-o5t1wLts/Udz_wejFaZI/AAAAAAAABHo/v7yQ6cP8pbU/w350-h18-no/dwm-status-en.png "dwm status skb en")
- * ![dwm statuscolor skb ru](https://lh3.googleusercontent.com/-XXU_byQ7YmY/Udz_wc2BbCI/AAAAAAAABHk/2hXM56vy9iE/w350-h18-no/dwm-status-ru.png "dwm status skb ru")
