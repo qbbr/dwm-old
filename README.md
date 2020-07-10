@@ -4,6 +4,8 @@
  * original [README](README) file
  * [dzenbar](https://github.com/qbbr/dzenbar)
 
+[![qbbr-dwm](https://i.imgur.com/6XEXVWcl.png)](https://i.imgur.com/6XEXVWc.png)
+
 ## Requirements
 
  * [dmenu](http://tools.suckless.org/dmenu/)(optional, see `dclip`)
