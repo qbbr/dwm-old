@@ -14,7 +14,7 @@ get_keyboard_layout() {
 }
 
 get_date() {
-	echo -en "\x01 $(date +'%d/%b/%Y [%a]\x05%k:%M')"
+	echo -en "\x01 $(date +'%d/%b/%Y [%a] Д=%j\x05%H:%M')"
 }
 
 while true; do
