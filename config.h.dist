@@ -3,7 +3,8 @@
 
 /* appearance */
 static const char *fonts[] = {
-	"Terminus:size=12"
+	"Terminus:size=12",
+	//"Symbola:size=12"
 };
 static const char dmenufont[] = "Terminus:size=12";
 #define NUMCOLORS 5
@@ -12,7 +13,7 @@ static const char colors[NUMCOLORS][MAXCOLORS][8] = {
 	{ "#073642", "#657B83", "#002B36" }, // \x01 = normal
 	{ "#268BD2", "#EEE8D5", "#268BD2" }, // \x02 = selected
 	{ "#B58900", "#EEE8D5", "#B58900" }, // \x03 = urgent/warning / skb RU
-	{ "#D33682", "#EEE8D5", "#D33682" }, // \x04 = error
+	{ "#002B36", "#268bd2", "#002B36" }, // \x04 = ps count
 	{ "#002B36", "#93A1A1", "#002B36" }, // \x05 = skb USA
 };
 static const unsigned int borderpx       = 2;  /* border pixel of windows */
@@ -97,9 +98,9 @@ static const char *dmenumpccmd[]    = { "dmenu-mpc-playlist", NULL };
 static const char *termcmd[]        = { "uxterm", NULL };
 static const char *slockcmd[]       = { "slock", NULL };
 static const char *screenshotcmd[]  = { "scrot", NULL };
-static const char *volupcmd[]       = { "volume-control", "-i", "5", NULL };
-static const char *voldowncmd[]     = { "volume-control", "-d", "5", NULL };
-static const char *voltogglecmd[]   = { "volume-control", "-t", NULL };
+static const char *volupcmd[]       = { "volumechanger", "-i", "5", NULL };
+static const char *voldowncmd[]     = { "volumechanger", "-d", "5", NULL };
+static const char *voltogglecmd[]   = { "volumechanger", "-t", NULL };
 static const char *mixertogglecmd[] = { "amixer", "-c", "0", "set", "Headphone", "toggle", "&&", "amixer", "-c", "0", "set", "Front", "toggle", NULL };
 static const char *mpdnextcmd[]     = { "mpc", "next", NULL };
 static const char *mpdprevcmd[]     = { "mpc", "prev", NULL };
@@ -115,7 +116,8 @@ static Key keys[] = {
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
 	{ MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
-	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
+	{ MODKEY,                       XK_u,      setnmaster,     {.i = 1 } },
+	{ MODKEY,                       XK_y,      incnmaster,     {.i = -1 } },
 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
 	{ MODKEY,                       XK_Return, zoom,           {0} },

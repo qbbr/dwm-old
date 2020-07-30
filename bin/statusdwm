@@ -1,26 +1,23 @@
 #!/usr/bin/env bash
 
-getKeyboardLayout() {
-	if [ "`skb -1`" = "Eng" ]; then
+get_ps_count() {
+	echo -en '\x04'
+	ps --no-headers -U $USER -u $USER u | wc -l
+}
+
+get_keyboard_layout() {
+	if [[ "$(skb -1)" == "Eng" ]]; then
 		echo -en "\x02EN"
 	else
 		echo -en "\x03RU"
 	fi
 }
 
-getDate() {
-	echo -en "\x01`date +'%a %k:%M %d/%b/%Y'`"
+get_date() {
+	echo -en "\x01 $(date +'%d/%b/%Y [%a]\x05%k:%M')"
 }
 
-#getMpd() {
-	#if [ "`mpc | grep '\[playing\]'`" ]; then
-		#echo -en "\x05 [MPD]: \x01 "
-		#echo -n `mpc | head -n 1`
-		#echo -en " \x05 O_o \x01"
-	#fi
-#}
-
 while true; do
-	xsetroot -name "$(getDate) $(getKeyboardLayout)"
+	xsetroot -name "$(get_date) $(get_keyboard_layout)$(get_ps_count)"
 	sleep 1
 done
