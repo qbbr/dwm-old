@@ -45,6 +45,7 @@ static const Rule rules[] = {
 	{ "qemu",               NULL,       NULL,            0,            True,        -1 },
 	{ "mupdf",              NULL,       NULL,            0,            True,        -1 },
 	{ "Pgadmin3",           NULL,       NULL,            0,            True,        -1 },
+	{ "jetbrains-idea",     NULL,       NULL,            1 << 1,       False,       2  },
 	{ "jetbrains-phpstorm", NULL,       NULL,            1 << 1,       False,       2  },
 	{ "jetbrains-pycharm",  NULL,       NULL,            1 << 1,       False,       2  },
 	{ "java-lang-Thread",   NULL,       NULL,            1 << 1,       True,        2  },
