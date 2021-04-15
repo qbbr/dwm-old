@@ -1,4 +1,4 @@
-# patched dwm 6.1
+# dwm 6.1 \w patches
 
  * [dwm](https://dwm.suckless.org/)
  * original [README](README) file
