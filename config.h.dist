@@ -3,10 +3,10 @@
 
 /* appearance */
 static const char *fonts[] = {
-	"Terminus:size=12",
+	"terminus-normal:size=12",
 	//"Symbola:size=12"
 };
-static const char dmenufont[] = "Terminus:size=12";
+static const char dmenufont[] = "terminus-normal:size=12";
 #define NUMCOLORS 5
 static const char colors[NUMCOLORS][MAXCOLORS][8] = {
 	// border    foreground  background
@@ -66,7 +66,7 @@ static const Rule rules[] = {
 	//{ NULL,                 NULL,       "tag_07.localhost:8089 - Chromium",            1 << 6,       False,       -1 },
 	{ NULL,                 NULL,       "rtorrent",      1 << 7,       False,       -1 },
 	{ "Fpm2",               NULL,       NULL,            1 << 8,       False,       -1  },
-	{ "Keepassx",           NULL,       NULL,            1 << 8,       False,       -1  },
+	{ "keepassx",           NULL,       NULL,            1 << 8,       False,       -1  },
 };
 
 /* layout(s) */
@@ -96,6 +96,7 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2]             = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[]       = { "dmenu_run", "-m", dmenumon, "-b", "-fn", dmenufont, "-nb", colors[0][2], "-nf", colors[0][1], "-sb", colors[1][2], "-sf", colors[1][1], NULL };
+static const char *roficmd[]        = { "rofi", "-show", "combi", NULL };
 static const char *dmenumpccmd[]    = { "dmenu-mpc-playlist", NULL };
 static const char *termcmd[]        = { "uxterm", NULL };
 static const char *slockcmd[]       = { "slock", NULL };
@@ -113,6 +114,7 @@ static const char *mpdseekmcmd[]    = { "mpc", "seek", "-5", NULL };
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
+	{ MODKEY,                       XK_F2,     spawn,          {.v = roficmd } },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
