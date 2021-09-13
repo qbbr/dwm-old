@@ -46,6 +46,7 @@ static const Rule rules[] = {
 	{ "mupdf",              NULL,       NULL,            0,            True,        -1 },
 	{ "Pgadmin3",           NULL,       NULL,            0,            True,        -1 },
 	{ "Gcolor3",            NULL,       NULL,            0,            True,        -1 },
+	{ "Skype",              NULL,       NULL,            0,            True,        -1 },
 	// 1:term
 	// 2:dev
 	{ "jetbrains-idea",     NULL,       NULL,            1 << 1,       False,       2  },
@@ -106,7 +107,7 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2]             = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[]       = { "dmenu_run", "-m", dmenumon, "-b", "-fn", dmenufont, "-nb", colors[0][2], "-nf", colors[0][1], "-sb", colors[1][2], "-sf", colors[1][1], NULL };
+static const char *dmenucmd[]       = { "dmenu_run", "-m", dmenumon, "-p", "cmd:", "-b", "-fn", dmenufont, "-nb", colors[0][2], "-nf", colors[0][1], "-sb", colors[1][2], "-sf", colors[1][1], NULL };
 static const char *roficmd[]        = { "rofi", "-show", "combi", NULL };
 static const char *dmenumpccmd[]    = { "dmenu-mpc-playlist", NULL };
 static const char *termcmd[]        = { "uxterm", NULL };
