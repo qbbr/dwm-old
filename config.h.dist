@@ -48,6 +48,7 @@ static const Rule rules[] = {
 	{ "Gcolor3",            NULL,       NULL,            0,            True,        -1 },
 	{ "Skype",              NULL,       NULL,            0,            True,        -1 },
 	// 1:term
+	{ "htop",               NULL,       NULL,            0,            False,        2 },
 	// 2:dev
 	{ "jetbrains-idea",     NULL,       NULL,            1 << 1,       False,       1  },
 	{ "jetbrains-phpstorm", NULL,       NULL,            1 << 1,       False,       1  },
@@ -59,7 +60,7 @@ static const Rule rules[] = {
 	{ "firefox-aurora",     NULL,       NULL,            1 << 1,       False,       0  },
 	{ "Chromium",           NULL,       NULL,            1 << 2,       False,       -1 },
 	//{ NULL,                 NULL,       "tag_03.localhost:8089 - Chromium",            1 << 2,       False,       -1 },
-	// e:mail
+	// q:mail
 	{ "Icedove",            NULL,       NULL,            1 << 3,       False,       -1 },
 	{ "Thunderbird",        NULL,       NULL,            1 << 3,       False,       -1 },
 	{ NULL,                 NULL,       "mutt",          1 << 3,       False,       1  },
@@ -68,7 +69,7 @@ static const Rule rules[] = {
 	{ NULL,                 NULL,       "mcabber",       1 << 4,       False,       1  },
 	{ "Pidgin",             NULL,       NULL,            1 << 4,       False,       -1 },
 	{ "TelegramDesktop" ,   NULL,       NULL,            1 << 4,       False,       -1 },
-	// m:dia
+	// e:mdia
 	{ NULL,                 NULL,       "newsbeuter",    1 << 5,       False,       -1 },
 	{ NULL,                 NULL,       "ncmpcpp",       1 << 5,       False,       1  },
 	// a:gile
@@ -77,8 +78,9 @@ static const Rule rules[] = {
 	{ "Fpm2",               NULL,       NULL,            1 << 7,       False,       -1 },
 	{ "keepassx",           NULL,       NULL,            1 << 7,       False,       -1 },
 	{ "KeePassXC",          NULL,       NULL,            1 << 7,       False,       -1 },
+	{ NULL,                 NULL,       "rtorrent",      1 << 7,       False,       -1 },
 	// d:bug
-	{ NULL,                 NULL,       "rtorrent",      1 << 8,       False,       -1 },
+	{ "dmesg",              NULL,       NULL,            1 << 8,       False,        1 }
 };
 
 /* layout(s) */
