@@ -46,7 +46,6 @@ static const Rule rules[] = {
 	{ "mupdf",              NULL,       NULL,            0,            True,        -1 },
 	{ "Pgadmin3",           NULL,       NULL,            0,            True,        -1 },
 	{ "Gcolor3",            NULL,       NULL,            0,            True,        -1 },
-	{ "Skype",              NULL,       NULL,            0,            True,        -1 },
 	// 1:term
 	{ "htop",               NULL,       NULL,            0,            False,        2 },
 	// 2:dev
@@ -69,6 +68,7 @@ static const Rule rules[] = {
 	{ NULL,                 NULL,       "mcabber",       1 << 4,       False,       1  },
 	{ "Pidgin",             NULL,       NULL,            1 << 4,       False,       -1 },
 	{ "TelegramDesktop" ,   NULL,       NULL,            1 << 4,       False,       -1 },
+	{ "Skype",              NULL,       NULL,            1 << 4,       False,       -1 },
 	// e:mdia
 	{ NULL,                 NULL,       "newsbeuter",    1 << 5,       False,       -1 },
 	{ NULL,                 NULL,       "ncmpcpp",       1 << 5,       False,       1  },
